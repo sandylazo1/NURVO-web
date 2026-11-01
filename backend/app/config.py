@@ -31,7 +31,7 @@ class Settings:
     playwright_year_selector: str = field(default_factory=lambda: os.getenv("NURVO_YEAR_SELECTOR", "").strip())
     allow_playwright: bool = field(default_factory=lambda: flag("NURVO_ALLOW_PLAYWRIGHT"))
     enable_daily_refresh: bool = field(default_factory=lambda: flag("NURVO_ENABLE_DAILY_REFRESH"))
-    scheduler_delay_seconds: float = field(default_factory=lambda: max(5.0, float(os.getenv("NURVO_REFRESH_DELAY_SECONDS", "5"))))
+    scheduler_delay_seconds: float = field(default_factory=lambda: max(5.0, float(os.getenv("NURVO_REFRESH_DELAY_SECONDS", "15"))))
     cache_ttl_hours: int = 24
     request_timeout_seconds: float = 15.0
     cache_retention_days: int = 90
