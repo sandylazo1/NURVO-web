@@ -76,3 +76,12 @@ Se inspeccionaron los jobs/pasos fallidos de todos los IDs y los logs de sus cat
 - Mantener PR #5 como propuesta independiente de concurrencia CI; evitar nuevas correcciones duplicadas.
 - Coordinar por [issue #1](https://github.com/sandylazo1/NURVO-web/issues/1) e [issue #3](https://github.com/sandylazo1/NURVO-web/issues/3); Antigravity no recibe automáticamente comentarios sin conectarse.
 - Validar URL pública, imágenes y comportamiento responsive con screenshots del SHA desplegado, separadamente de las pruebas automatizadas.
+
+## Seguimiento de integración — 2026-11-01, 11:00 America/Santiago
+
+- **PR #7 (auditoría + SEO)**: el último SHA observado es `7b8c3e9afa5e8cca250d973f75afd42bb32d8a05`. El run [41308234630](https://github.com/sandylazo1/NURVO-web/actions/runs/41308234630) para **ese SHA** terminó con **4/4 jobs success**: auditor de Actions, Node smoke e integridad estática, pytest/compilación de backend, y Chromium escritorio/móvil. Se verificaron directamente los jobs y sus pasos mediante GitHub Actions. Artefactos del run: `nurvo-failed-actions-audit` (ID `13084575580`) y `nurvo-desktop-mobile-previews` (ID `13083614336`). No se certificó por ello un despliegue de producción del PR.
+- **PR #4**: GitHub informa `mergeable=false` frente a `main`; su rama `agent/ci-audit-20261101-b` y la rama de PR #7 divergen (comparación: 21 commits ahead / 16 behind, 11 archivos modificados en común). **No fusionar PR #4 sin resolver conflictos**, revisar y evitar integrar dos veces el mismo auditor, SEO y QA. [PR #4](https://github.com/sandylazo1/NURVO-web/pull/4) y [PR #7](https://github.com/sandylazo1/NURVO-web/pull/7) siguen abiertos y en borrador.
+- **PR #5**: el run [41307554581](https://github.com/sandylazo1/NURVO-web/actions/runs/41307554581) del SHA `fc93086d59d7c15293a949bb898970963793592d` está verde; su propuesta de concurrencia CI sigue separada. No se ha fusionado.
+- **PR #6 (este informe)**: mantiene la evidencia histórica por ID y causa; el PR #7 incluye un auditor automatizado y puede ser el candidato principal para integración tras revisión cruzada. El informe histórico de 31 fallos no representa 31 fallos actuales. No repetir fixes ni atribuir recepción automática de issue #1 a Antigravity.
+
+**Alcance de esta actualización:** documentación en rama propia; ninguna modificación de backend, frontend, secretos o `main`. No se ejecutaron tests locales en esta actualización; los éxitos descritos son exclusivamente ejecuciones reales de GitHub Actions vinculadas a sus SHAs.
