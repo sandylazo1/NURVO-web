@@ -1,7 +1,10 @@
 name: NURVO - CI and visual checks
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'agent/**'
+      - 'antigravity/**'
   pull_request:
     branches: [main]
   workflow_dispatch:
