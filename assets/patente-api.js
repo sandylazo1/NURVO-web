@@ -48,6 +48,8 @@
   function render(data) {
     latest = data;
     result.hidden = false;
+    const placeholder = document.getElementById("official-placeholder");
+    if (placeholder) placeholder.hidden = true;
     fields.replaceChildren();
     const heading = data.marca && data.modelo ? data.marca + ' ' + data.modelo : 'Vehículo no identificado automáticamente';
     title.textContent = heading;
@@ -101,6 +103,8 @@
     }
     plateInput.value = plate;
     result.hidden = true;
+    const placeholder = document.getElementById("official-placeholder");
+    if (placeholder) placeholder.hidden = false;
     latest = null;
     if (!BASE) {
       setState('No hay backend conectado. Puedes continuar con el asistente manual o verificar en sitios oficiales.');
