@@ -1,0 +1,11 @@
+{
+  "name": "NURVO — Tu auto, bajo control",
+  "short_name": "NURVO",
+  "description": "Asistente de cuidado vehicular y cotizaciones de repuestos",
+  "start_url": "./",
+  "scope": "./",
+  "display": "browser",
+  "lang": "es-CL",
+  "background_color": "#0B1F3B",
+  "theme_color": "#0B1F3B"
+}
