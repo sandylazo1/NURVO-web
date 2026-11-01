@@ -67,3 +67,9 @@ Se purgan automáticamente registros antiguos (90 días) durante el job diario; 
 - Consulta oficial: https://www.autoseguro.gob.cl/
 - Certificado multas: https://www.chileatiende.gob.cl/fichas/3439
 - FastAPI: https://fastapi.tiangolo.com/
+
+## VIN real opcional: NHTSA vPIC
+
+`GET /api/vin/{VIN}` decodifica individualmente el VIN con la API pública NHTSA vPIC de EE. UU.; requiere 17 caracteres y acceso a Internet. Puede devolver marca, modelo y año si la fuente los conoce. **No** deduce la patente chilena, dueño, robos, multas o averías; la cobertura para versiones chilenas puede ser incompleta. No almacena VINs. NHTSA impone límites de uso: no automatices búsquedas masivas. Esta es una integración real distinta del buscador por patente.
+
+Documentación del proveedor: https://vpic.nhtsa.dot.gov/api/Home/Index
