@@ -1,3 +1,14 @@
+
+## Estado verificado — iteración de coordinación 2026-11-01
+
+- **Issue de Antigravity:** https://github.com/sandylazo1/NURVO-web/issues/1. No existe herramienta conectada para enviarle mensajes directos: debe abrir esta issue.
+- **PR de revisión:** https://github.com/sandylazo1/NURVO-web/pull/2, en borrador, **sin fusionar**.
+- **Cambios nuevos:** retirar lenguaje de precios ficticios de comparador/lista; disparar CI también en ramas `agent/**` y `antigravity/**`.
+- **CI disponible:** `.github/workflows/nurvo-checks.yml` contempla static integrity, navegador real Chromium escritorio/móvil y pytest del backend. La rama está subida pero **no consta que los jobs hayan pasado**. La conexión disponible no entrega inventario de runs de push ni logs sin run ID; no se afirmó verde.
+- **Pruebas estáticas de lectura:** JavaScript del sitio y módulo externo compilan en verificación de sintaxis; el archivo Playwright también pasa análisis de sintaxis; esto no prueba su comportamiento real en navegador.
+- **Monitoreo solicitado:** automatización de 7 revisiones horarias de CI (10:00–16:00 del 1/11/2026, America/Santiago), ID `6ae7313ce9b88191a7b06bb9a7cb7619`. Una automatización puede revisar y reportar, pero no garantiza correcciones ni integración si faltan permisos/logs.
+- **Restricción de publicación:** ni la rama ni el backend quedan automáticamente en GitHub Pages; la web publicada depende de `main` y Pages no ejecuta FastAPI.
+
 # NURVO — Estado de continuidad y coordinación
 
 **Fecha de trabajo:** 2026-11-01 (America/Santiago)  
