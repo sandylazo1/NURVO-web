@@ -37,4 +37,6 @@ class Settings:
     allowed_hosts: tuple[str, ...] = field(default_factory=lambda: csv("NURVO_ALLOWED_HOSTS", "localhost,127.0.0.1,*.onrender.com,*.railway.app,*.fly.dev"))
     def ready(self) -> bool:
         return (self.provider_authorized and self.provider_kind in {"json_api", "playwright"} and bool(self.provider_url)
-                and (self.provider_kind != "playwright" or self.allow_playwright))
+                and (self.provider_kind != "playwright" or (
+                    self.allow_playwright and bool(self.plate_input_selector)
+                    and bool(self.plate_submit_selector) and bool(self.plate_results_selector))))
