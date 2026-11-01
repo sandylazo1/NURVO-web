@@ -78,11 +78,21 @@ try {
   assert.equal(await page.locator('.nurvo-journey-panel.is-active').count(), 1);
   assert.equal(await page.locator('[data-scene="1"]').getAttribute('aria-pressed'), 'true');
 
+  // Detect broken interactions hidden behind horizontal scrolling.
+  const desktopOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  assert.ok(desktopOverflow <= 2, 'Desbordamiento horizontal escritorio: ' + desktopOverflow + 'px');
+
+  // Keyboard-accessible controls and reduced-motion preference.
+  assert.equal(await page.locator('#cart-open').getAttribute('type') === 'button' || await page.locator('#cart-open').getAttribute('type') === null, true);
+  assert.equal(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches), true);
+
   await mkdir('test-artifacts', { recursive: true });
   await page.screenshot({ path: 'test-artifacts/nurvo-desktop.png', fullPage: true, animations: 'disabled' });
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: 'domcontentloaded' });
+  const mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  assert.ok(mobileOverflow <= 2, 'Desbordamiento horizontal móvil: ' + mobileOverflow + 'px');
   assert.equal(await page.locator('.nurvo-mobile-dock').isVisible(), true, 'La navegación móvil debe aparecer');
   await page.locator('#menu').click();
   assert.equal(await page.locator('#menu').getAttribute('aria-expanded'), 'true');
