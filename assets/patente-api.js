@@ -147,5 +147,47 @@
       if (validPlate(plate)) plateInput.value = plate;
     });
   }
+
+  const vinForm = document.getElementById('official-vin-form');
+  if (vinForm) vinForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    const output = document.getElementById('official-vin-result');
+    const raw = document.getElementById('official-vin-input').value.toUpperCase().trim();
+    const button = vinForm.querySelector('[type="submit"]');
+    if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(raw)) {
+      output.textContent = 'El VIN necesita 17 caracteres válidos, sin I, O ni Q.';
+      return;
+    }
+    if (!BASE) {
+      output.textContent = 'Para decodificar el VIN desde NURVO, despliega y conecta el backend. La API de NHTSA es pública.';
+      return;
+    }
+    button.disabled = true;
+    output.textContent = 'Consultando la API pública NHTSA…';
+    const abort = new AbortController();
+    const timeout = setTimeout(() => abort.abort(), 18000);
+    try {
+      const response = await fetch(BASE + '/api/vin/' + encodeURIComponent(raw), {
+        headers: {Accept: 'application/json'}, signal: abort.signal, cache: 'no-store'
+      });
+      if (!response.ok) throw new Error('La API VIN no está disponible ahora.');
+      const data = await response.json();
+      if (data.vin !== raw) throw new Error('La fuente devolvió otro VIN.');
+      if (!data.marca || !data.modelo || !data.ano) {
+        output.textContent = 'La fuente pública no pudo identificar completamente este VIN. No se inventaron datos.';
+        return;
+      }
+      output.textContent = 'NHTSA vPIC: ' + data.marca + ' ' + data.modelo + ' (' + data.ano + '). Información orientativa; confirma la versión chilena.';
+      const manual = document.getElementById('diag-form');
+      manual.elements.make.value = data.marca;
+      manual.elements.model.value = data.modelo;
+      manual.elements.year.value = data.ano;
+    } catch (err) {
+      output.textContent = err.name === 'AbortError' ? 'Tiempo de respuesta agotado.' : (err.message || 'Error de consulta VIN.');
+    } finally {
+      clearTimeout(timeout);
+      button.disabled = false;
+    }
+  });
   if (!BASE) setState('Modo demostración: consulta automática deshabilitada hasta conectar una API autorizada.');
 })();
