@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+concurrency:
+  group: nurvo-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -40,6 +43,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify supported Playwright runner
+        shell: bash
+        run: |
+          . /etc/os-release
+          echo "Runner: $PRETTY_NAME"
+          test "$VERSION_ID" = '24.04'
       - name: Install Playwright test browser
         run: |
           npm install --no-save playwright@1.56.1
