@@ -1,5 +1,40 @@
 # NURVO — QA_REPORT: auditoría de GitHub Actions con logs reales
 
+## Consolidación vigente — 2026-11-01, 15:15 America/Santiago
+
+Esta sección actualiza los cortes históricos inferiores. Se reutiliza la rama propia del PR #6 (`agent/ci-failure-evidence-20261101`) para evitar otro PR de auditoría duplicado. Base observada: `main` en `5e65810dc8c2c833846bad841f832ba1d7feefc2`.
+
+### PR e issue incluidos
+
+| Elemento | Estado y cambios inspeccionados | CI del SHA observado / pendiente |
+|---|---|---|
+| [PR #2](https://github.com/sandylazo1/NURVO-web/pull/2) | Cerrado sin merge. La API devuelve head/base `f13ae7fa869d`, cero commits y cero archivos de diferencia; el texto de su propuesta no prueba cambios pendientes. Su antigua rama no aparece en el inventario actual. | Runs de main [41306670256](https://github.com/sandylazo1/NURVO-web/actions/runs/41306670256) y [41306669943](https://github.com/sandylazo1/NURVO-web/actions/runs/41306669943) exitosos en ese SHA; no son una validación independiente del PR cerrado. No reabrir ni recrear trabajo por su descripción. |
+| [PR #4](https://github.com/sandylazo1/NURVO-web/pull/4) | Abierto, borrador, head `edc57cfe8c55`; 11 archivos. Auditor de Actions, pruebas offline, evidencia Chromium, SEO y documentos. GitHub: `mergeable=false`, `dirty`. | Consulta de runs por SHA sin resultados: CI no acreditado para ese head. `git merge-tree --write-tree main origin/agent/ci-audit-20261101-b` reproduce conflicto de contenido en **index.html**, sin modificar el árbol de trabajo. Resolver en rama del responsable y ejecutar CI antes de integrar. |
+| [PR #5](https://github.com/sandylazo1/NURVO-web/pull/5) | Abierto, borrador, sin conflicto según API; head `fc93086d59d7`. Solo modifica `.github/workflows/nurvo-checks.yml`: concurrencia por workflow/ref y guarda Ubuntu 24.04. | [41307554581](https://github.com/sandylazo1/NURVO-web/actions/runs/41307554581): 3/3 success. Log de Chromium confirma Ubuntu 24.04.5 y recorridos escritorio/móvil. La concurrencia de CI no certifica solucionar todos los despliegues Pages concurrentes. |
+| [PR #6](https://github.com/sandylazo1/NURVO-web/pull/6) | Abierto, borrador, sin conflicto según API antes de esta actualización; head auditado `104749c2c81d`. Solo QA_REPORT.md, con los 35 fallos históricos y advertencias. | [41330836689](https://github.com/sandylazo1/NURVO-web/actions/runs/41330836689): 3/3 success. Se releyeron los tres logs: Node, pytest (10 passed, 1 warning), Chromium escritorio/móvil. El nuevo commit documental necesita su propio run. |
+| [PR #7](https://github.com/sandylazo1/NURVO-web/pull/7) | Abierto, borrador, sin conflicto según API; head `7b8c3e9afa5e`. 11 archivos: auditor, evidencia Chromium, SEO y documentos. Su diff de index.html frente a main añade metadatos y enlaces manifest/sitemap. | [41308234630](https://github.com/sandylazo1/NURVO-web/actions/runs/41308234630): 4/4 success, incluido auditor. Logs del auditor y Chromium consultados directamente. No equivale a despliegue de este PR. |
+| [Issue #1](https://github.com/sandylazo1/NURVO-web/issues/1) | Abierta, sin asignados; cuerpo y cinco comentarios leídos. El comentario anterior ya registra las advertencias y CI de #6. Las discusiones de #2/#5/#6/#7 no contienen comentarios; #4 ya contiene coordinación con #6. | Ninguna rama actual contiene `antigravity`; los comentarios no aportan una confirmación identificable de recepción o revisión de Antigravity. Registrar aquí la consolidación nueva, sin repetir el inventario histórico. |
+
+### Integración sin duplicar correcciones
+
+- #4 y #7 modifican los mismos 11 paths. Son idénticos entre ambas ramas: `scripts/audit-actions.py`, `tests/test_audit_actions.py`, `tests/browser.mjs`, `robots.txt`, `sitemap.xml` y `site.webmanifest`. Difieren workflow, index.html y los tres documentos. No integrar ambas propuestas completas de forma ciega.
+- Candidato a revisar: #7 para auditor/SEO/evidencias, #5 para concurrencia/guarda, y conservar el informe histórico actualizado de #6 al conciliar documentos. #5 y #7 comparten workflow; #6 y #7 comparten QA_REPORT.md. Aunque cada PR esté limpio frente a main hoy, revalidar conflictos y CI tras cada integración autorizada.
+- El auditor de #7 captura errores de consulta y genera un informe de auditoría incompleta sin devolver fallo. Por inspección de código, un job verde del auditor por sí solo no certifica que el inventario se haya recuperado: leer el artefacto. También limita páginas de runs y consulta la primera página de jobs por run. No se modifica esa rama aquí.
+- Pendiente de Antigravity: confirmar lectura en issue #1, declarar rama/SHA/PR propio, revisar conflicto de index.html y la selección de cambios, y aportar run IDs/logs de cualquier fallo nuevo. La entrega de un comentario no demuestra recepción por su aplicación.
+- Mantener borradores y no fusionar con CI rojo, ausente o desactualizado. Las advertencias Node/pytest/Starlette siguen siendo mantenimiento, sin fallo funcional reproducido que justifique cambios de dependencias en esta actualización.
+
+### Inventario y pruebas de esta sesión
+
+API paginada completa antes de este commit: **144 runs = 69 success + 35 failure + 40 cancelled** (100 + 44 registros). Sin nuevos fallos respecto del inventario previo; se conserva la evidencia histórica inferior sin volver a reparar SHAs ya corregidos.
+
+**Pruebas locales reales**, ahora con clonación disponible, en el código de la rama #6 basado en `104749c2c81d` (frontend/backend sin cambios respecto de main): Windows, Node 24.19.0, Python 3.11.9, Playwright 1.56.1 y dependencias Python instaladas en entorno aislado desde requirements-dev.txt.
+
+- `node tests/smoke.mjs`: aprobado.
+- `python -m pytest -q tests`, dentro de backend: **10 passed, 1 warning**, más aviso de configuración de pytest-asyncio; misma deprecación TestClient/httpx observada en CI.
+- `node tests/browser.mjs` con servidor HTTP local: aprobado en escritorio y móvil, logos, búsqueda, imágenes, cotizaciones, comparación, diagnóstico y carruseles. Son las aserciones del test, no una certificación de todas las imágenes externas ni WCAG completa.
+
+Estas pruebas no validan localmente el código divergente de #4 ni el auditor/SEO de #7; para #5/#7 se distingue la evidencia de Actions por SHA. No hay cambios funcionales nuevos que reparar. Esta actualización solo modifica documentación; sin secretos, force push, merge, cambios a main o ramas ajenas. Pages sirve frontend estático: no ejecuta FastAPI ni acredita robos, multas, patentes o compatibilidad vehicular. Los cortes inferiores que mencionan DNS describen sesiones anteriores, no esta ejecución local.
+
 **Corte:** 2026-11-01, aproximadamente 12:40 UTC (09:40 America/Santiago). **Repositorio:** `sandylazo1/NURVO-web`.
 **Alcance:** 130 ejecuciones recuperadas de GitHub Actions API, paginadas; 31 fallidas, 40 canceladas, 58 exitosas y 1 aún sin conclusión en la instantánea. Una cancelación no equivale a fallo de tests. Los datos son históricos y pueden cambiar con nuevas ejecuciones.
 
