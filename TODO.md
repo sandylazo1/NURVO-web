@@ -45,4 +45,3 @@ No hacer `push --force`, no fusionar pruebas rojas, no asumir conexión con Anti
 - [ ] Confirmar *último* despliegue Pages de main (la ejecución de PR no publica Pages).
 - [ ] Revisar conflictos con cambios nuevos de main antes de fusionar; no forzar.
 - [ ] Coordinar revisión de Antigravity por issue #3.
-
