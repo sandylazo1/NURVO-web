@@ -77,3 +77,30 @@ jobs:
       - name: Verify API contract and cache behavior
         working-directory: backend
         run: python -m pytest -q tests
+
+  audit:
+    name: Identify failed historical GitHub Actions jobs
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check CI auditor without network
+        run: python -m unittest discover -s tests -p 'test_audit_actions.py' -v
+      - name: List failed runs and steps
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NURVO_AUDIT_PAGES: '5'
+        run: python scripts/audit-actions.py
+      - name: Preserve audit report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nurvo-failed-actions-audit
+          path: test-artifacts/failed-actions.md
+          if-no-files-found: warn
+          retention-days: 14

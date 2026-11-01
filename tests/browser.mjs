@@ -92,6 +92,19 @@ try {
   assert.deepEqual(errors, [], 'Errores de JavaScript en navegador');
   console.log('NURVO browser checks passed: desktop, mobile, logos, search, images, quote list, compare, diagnostic, carousels.');
   if (warnings.length) console.log('Browser warnings (nonfatal): ' + warnings.slice(0, 6).join(' | '));
+} catch (error) {
+  await mkdir('test-artifacts', { recursive: true });
+  const currentUrl = page.url();
+  console.error('NURVO UI test failure at:', currentUrl);
+  console.error('Browser page exceptions:', JSON.stringify(errors));
+  console.error('Browser console warnings:', JSON.stringify(warnings.slice(-20)));
+  await page.screenshot({
+    path: 'test-artifacts/nurvo-failed-state.png',
+    fullPage: true,
+    animations: 'disabled',
+    timeout: 15000,
+  }).catch(screenshotError => console.error('Screenshot not captured:', screenshotError.message));
+  throw error;
 } finally {
   await context.close();
   await browser.close();
