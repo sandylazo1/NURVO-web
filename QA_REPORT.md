@@ -1,6 +1,6 @@
 # NURVO — Informe QA verificable
 
-**Fecha:** 2026-11-01. **Repositorio:** `sandylazo1/NURVO-web`. **Rama:** `agent/qa-ci-hardening-20261101`.
+**Fecha:** 2026-11-01. **Repositorio:** `sandylazo1/NURVO-web`. **Rama:** `agent/ci-audit-20261101-b`.
 
 ## Hechos comprobados
 
@@ -45,4 +45,8 @@ Procedimiento: abrir https://github.com/sandylazo1/NURVO-web/actions, obtener ru
 
 ## Verificación adicional y bloqueo
 
-GitHub reportó `NOT_FOUND` para la rama `agent/qa-ci-hardening-20261101` después de haber sido usada. El último `main` observado es `f13ae7fa` (corrección de CI). Se recuperó documentación desde commit inmutable anterior a la desaparición. No se atribuye la eliminación de rama a ningún agente sin confirmación. No existe run ID verificable accesible desde el conector en este momento.
+GitHub reportó `NOT_FOUND` para la rama `agent/ci-audit-20261101-b` después de haber sido usada. El último `main` observado es `f13ae7fa` (corrección de CI). Se recuperó documentación desde commit inmutable anterior a la desaparición. No se atribuye la eliminación de rama a ningún agente sin confirmación. No existe run ID verificable accesible desde el conector en este momento.
+
+## Auditoría CI incorporada
+
+El workflow incluye job `audit` con permisos `actions: read`, ejecuta `scripts/audit-actions.py`, consulta hasta 500 runs recientes y publica `test-artifacts/failed-actions.md` como artefacto. Es una **instrumentación pendiente de ejecución**, no prueba de que hayan desaparecido los fallos. No se adjuntan logs completos para evitar exposición accidental de datos.
