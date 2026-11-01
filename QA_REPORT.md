@@ -95,4 +95,3 @@ Consulta del run mediante GitHub Connector: los cuatro jobs terminaron **success
 - Run [41282662825](https://github.com/sandylazo1/NURVO-web/actions/runs/41282662825), job 124777585428: Jekyll buscó carpeta `docs` inexistente (`Errno::ENOENT`); el sitio ahora dispone de raíz `index.html` y `.nojekyll`. Verificar la configuración actual de Settings → Pages.
 
 **Pendiente:** confirmación del último despliegue a GitHub Pages (no inferir estado de producción solo por CI del PR). Evitar pushes simultáneos a `main` y no reintentar despliegues de SHAs antiguos (riesgo de rollback).
-
