@@ -34,12 +34,16 @@ class LicensedProvider:
 
     @property
     def ready(self) -> bool:
+        if self.settings.provider_kind == "autoriesgo":
+            return self.settings.ready()
         return self.settings.ready() and trusted_url(self.settings.provider_url.replace("{patente}", "ABCD12"))
 
     async def fetch(self, plate: str) -> PlateRecord:
         if not self.ready:
             raise SourceUnavailable("Fuente no configurada o autorización no confirmada")
-        if self.settings.provider_kind == "json_api":
+        if self.settings.provider_kind == "autoriesgo":
+            values = await self._autoriesgo(plate)
+        elif self.settings.provider_kind == "json_api":
             values = await self._json_api(plate)
         elif self.settings.provider_kind == "playwright":
             values = await self._playwright(plate)
@@ -60,9 +64,73 @@ class LicensedProvider:
             modelo=text_value(values.get("modelo", values.get("model"))), ano=year,
             estado_robo=theft_status(values.get("estado_robo"), self.settings.verified_theft_source),
             multas=text_value(values.get("multas"), 100) if self.settings.verified_fines_source else None,
-            fuente=self.settings.provider_name,
+            fuente="AutoRiesgo API (licencia comercial)" if self.settings.provider_kind == "autoriesgo" else self.settings.provider_name,
             ultima_actualizacion=datetime.now(timezone.utc),
         )
+
+    async def _autoriesgo(self, plate: str) -> dict:
+        """Commercial Chilean plate API, explicit license/key. Excludes owner data."""
+        if not self.settings.provider_authorized or not self.settings.provider_token:
+            raise SourceUnavailable("Falta una licencia comercial autorizada")
+        base = "https://api.autoriesgo.cl/api/v1"
+        headers = {
+            "X-Api-Key": self.settings.provider_token,
+            "Accept": "application/json",
+            "User-Agent": "NURVO/1.0 authorized-vehicle-lookup",
+        }
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(25.0), verify=True, follow_redirects=False) as client:
+                resp = await client.get(base + "/vehicle/" + plate, headers=headers)
+                resp.raise_for_status()
+                payload = resp.json()
+                if not isinstance(payload, dict) or payload.get("found") is not True:
+                    raise SourceUnavailable("Sin registro confirmado para esta patente")
+                if str(payload.get("patente", plate)).upper().replace("-", "") != plate:
+                    raise SourceUnavailable("Respuesta de patente diferente")
+                vehicle = payload.get("vehicle")
+                if not isinstance(vehicle, dict):
+                    raise SourceUnavailable("Datos vehiculares incompletos")
+                data = {
+                    "make": vehicle.get("make", vehicle.get("marca")),
+                    "model": vehicle.get("model", vehicle.get("modelo")),
+                    "year": vehicle.get("year", vehicle.get("ano")),
+                }
+                if self.settings.autoriesgo_fetch_theft and self.settings.verified_theft_source:
+                    try:
+                        theft_resp = await client.get(base + "/stolen/" + plate, headers=headers, timeout=50.0)
+                        theft_resp.raise_for_status()
+                        theft = theft_resp.json()
+                        if isinstance(theft, dict) and theft.get("status") == "success" and isinstance(theft.get("data"), dict):
+                            code = str(theft["data"].get("status_code", "")).lower()
+                            data["estado_robo"] = {
+                                "active_alert": "encargo_vigente", "plates_only": "encargo_vigente",
+                                "clear": "sin_encargo_reportado",
+                            }.get(code, "no_verificado")
+                    except (httpx.HTTPError, ValueError, TypeError):
+                        data["estado_robo"] = "no_verificado"
+                if self.settings.autoriesgo_fetch_fines and self.settings.verified_fines_source:
+                    try:
+                        fine_resp = await client.get(base + "/traffic-tickets/" + plate,
+                                                     headers=headers, params={"include_local": "false"},
+                                                     timeout=95.0)
+                        fine_resp.raise_for_status()
+                        fines = fine_resp.json()
+                        if isinstance(fines, dict):
+                            if fines.get("status") == "not_found":
+                                data["multas"] = "Sin multas nacionales reportadas en la fuente consultada"
+                            elif fines.get("status") == "success" and isinstance(fines.get("data"), dict):
+                                summary = fines["data"].get("summary")
+                                if isinstance(summary, dict):
+                                    count = summary.get("count", summary.get("total_count"))
+                                    if isinstance(count, int) and 0 <= count <= 100000:
+                                        data["multas"] = str(count) + " multas nacionales según el proveedor"
+                    except (httpx.HTTPError, ValueError, TypeError):
+                        pass
+                return data
+        except SourceUnavailable:
+            raise
+        except (httpx.HTTPError, ValueError, TypeError) as exc:
+            raise SourceUnavailable("Proveedor chileno fuera de servicio o respuesta inválida") from exc
 
     async def _json_api(self, plate: str) -> dict:
         url = self.settings.provider_url.replace("{patente}", plate)
