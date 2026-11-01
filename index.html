@@ -310,14 +310,14 @@ header .image-logo:hover img{opacity:.88;transition:opacity .2s ease}
 'use strict';
 const $=s=>document.querySelector(s), money=n=>new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(n),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const products=[
-{id:1,name:'Pastillas, discos y sistema de frenos',cat:'Frenos',detail:'Confirma diámetro, eje y referencia exacta con el proveedor.',photos:[6870300,30470930]},
+{id:1,name:'Pastillas, discos y sistema de frenos',cat:'Frenos',detail:'Confirma diámetro, eje y referencia exacta con el proveedor.',photos:[3642618,34277923]},
 {id:2,name:'Aceite de motor y lubricantes',cat:'Lubricantes',detail:'Grado, especificación y cantidad dependen de tu motorización.',photos:[13065690,13065696]},
-{id:3,name:'Baterías y arranque',cat:'Baterías',detail:'Verifica dimensiones, capacidad, polaridad y tecnología.',photos:[6473244,37177070]},
+{id:3,name:'Baterías y arranque',cat:'Baterías',detail:'Verifica dimensiones, capacidad, polaridad y tecnología.',photos:[32282232,37177070]},
 {id:4,name:'Suspensión y dirección',cat:'Suspensión',detail:'Amortiguadores, soportes y bujes según la versión y el eje.',photos:[38084839,34277924]},
-{id:5,name:'Filtros para tu mantención',cat:'Filtros',detail:'Aire, cabina, aceite y combustible según la versión del motor.',photos:[9381003,8985456]},
-{id:6,name:'Iluminación y accesorios',cat:'Iluminación',detail:'Revisar tipo de foco, base y normativa vigente.',photos:[18262228,13065692]},
-{id:7,name:'Distribución y piezas de motor',cat:'Motor',detail:'Correa, cadena y componentes según código motor y plan de fábrica.',photos:[13065692,8985456]},
-{id:8,name:'Neumáticos y ruedas',cat:'Neumáticos',detail:'Medida y códigos de carga y velocidad según el vehículo.',photos:[29537012,116676]}
+{id:5,name:'Filtros para tu mantención',cat:'Filtros',detail:'Aire, cabina, aceite y combustible según la versión del motor.',photos:[9381003,9381013]},
+{id:6,name:'Iluminación y accesorios',cat:'Iluminación',detail:'Revisar tipo de foco, base y normativa vigente.',photos:[13265191,9827729]},
+{id:7,name:'Distribución y piezas de motor',cat:'Motor',detail:'Correa, cadena y componentes según código motor y plan de fábrica.',photos:[13119000,13972256]},
+{id:8,name:'Neumáticos y ruedas',cat:'Neumáticos',detail:'Medida y códigos de carga y velocidad según el vehículo.',photos:[34357287,116676]}
 ];
 function read(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}function persist(){try{localStorage.setItem('nurvo-v2',JSON.stringify(state))}catch{storageAvailable=false;notify('Almacenamiento no disponible: los cambios durarán esta sesión.')}}
 let raw=read('nurvo-v2',{});if(!raw||typeof raw!=='object')raw={};const state={cart:{},vehicle:null,services:[]};for(const p of products){const q=raw.cart?.[p.id];if(Number.isInteger(q)&&q>0&&q<=99)state.cart[p.id]=q}if(raw.vehicle&&typeof raw.vehicle.make==='string'&&typeof raw.vehicle.model==='string'&&Number.isInteger(raw.vehicle.year)&&raw.vehicle.year>=1900&&raw.vehicle.year<=2027&&Number.isInteger(raw.vehicle.km)&&raw.vehicle.km>=0&&raw.vehicle.km<=2000000){state.vehicle=raw.vehicle;state.services=Array.isArray(raw.services)?raw.services.filter(s=>s&&typeof s.id==='string'&&typeof s.task==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s.date)&&Number.isInteger(s.target)&&s.target>=0&&s.target<=2000000&&typeof s.done==='boolean').slice(0,200):[]}
