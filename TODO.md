@@ -29,3 +29,10 @@
 
 ## Política de coordinación
 No hacer `push --force`, no fusionar pruebas rojas, no asumir conexión con Antigravity. Revisar PR y comentarios antes de integrar. Ver `AGENT_PROGRESS.md` y `QA_REPORT.md`.
+
+## Ejecutado en la rama de auditoría
+- [x] Mantener aislamiento de `main` después de cambios concurrentes.
+- [x] Añadir herramienta de auditoría para listar IDs/pasos fallidos vía API GitHub Actions en workflow.
+- [x] Añadir captura de pantalla en fallo de Chromium.
+- [x] Restaurar documentación y assets SEO desde commits recuperables.
+- [ ] Obtener artefacto `nurvo-failed-actions-audit` tras CI y clasificar errores; sin run real no marcar como verificado.
