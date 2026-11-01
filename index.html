@@ -266,9 +266,40 @@ body{padding-bottom:66px}.nurvo-mobile-dock{position:fixed;bottom:0;left:0;right
 #compare-tray{bottom:76px}
 }
 @media(prefers-reduced-motion:reduce){.nurvo-to-top,.nurvo-supplier-inline{transition:none}.nurvo-hero-glow{display:none}}
+
+/* TACTILE CHILEAN PLATE COMPONENT */
+.chile-plate-preview{margin:18px 0 14px 0;display:flex;flex-direction:column;gap:12px}
+.chile-plate-badge{display:inline-flex;flex-direction:column;align-items:center;background:#FFFFFF;color:#060E1A;border:3.5px solid #1E293B;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.9),inset 0 0 0 1.5px #94A3B8;font-family:'Montserrat',system-ui,sans-serif;font-weight:800;overflow:hidden;user-select:none;width:fit-content;transition:transform .2s var(--nurvo-ease),box-shadow .2s ease}
+.chile-plate-badge:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,0.5)}
+.chile-plate-band{background:#0039A6;color:#FFFFFF;font-size:9px;font-weight:800;letter-spacing:0.22em;width:100%;padding:3px 14px;display:flex;align-items:center;justify-content:center;gap:6px;line-height:1}
+.chile-plate-text{padding:6px 18px 7px;font-size:26px;line-height:1;letter-spacing:0.12em;display:flex;align-items:center;gap:6px;color:#0B132B}
+.chile-plate-dot{color:#0039A6;font-size:16px;opacity:0.8}
+.chile-plate-quick-tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.plate-tip-label{font-size:12px;color:#94A3B8;font-weight:600}
+.plate-chip{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);color:#F8FAFC;font-family:monospace;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all 0.15s ease}
+.plate-chip:hover{background:rgba(225,6,0,0.25);border-color:#E10600;color:#FFFFFF;transform:translateY(-1px)}
+
 </style></head><body>
 <a class="skip" href="#main">Saltar al contenido</a><div class="topline">NURVO · REPUESTOS Y CUIDADO AUTOMOTRIZ · CHILE</div><header><div class="wrap bar"><a class="logo image-logo" data-brand="nurvo-transparent-png" href="#inicio" aria-label="NURVO inicio"><img src="data:image/png;base64,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" alt="NURVO — Tu auto, bajo control" width="284" height="78" decoding="async"></a><nav id="nav" aria-label="Navegación principal"><a href="#consulta-oficial">Por patente</a><a href="#marketplace">Repuestos</a><a href="#proveedores">Proveedores</a><a href="#vehiculo">Mi vehículo</a><a href="#confianza">Cómo funciona</a><a href="#empresas">Empresas</a></nav><div class="actions"><button class="btn secondary" id="cart-open">Mi lista <span id="count">0</span></button><button class="btn secondary menu" id="menu" aria-expanded="false" aria-controls="nav">Menú</button></div></div></header>
-<div id="nurvo-progress" aria-hidden="true"></div><main id="main"><div class="hero" id="inicio"><div class="nurvo-hero-glow" aria-hidden="true"></div><div class="wrap hero-grid"><div class="hero-copy"><div class="eyebrow">Menos vueltas. Más camino.</div><h1>Todo lo que tu auto<br>necesita, <em>en un solo lugar.</em></h1><p>Organiza tu vehículo, planifica sus cuidados y encuentra repuestos. Más información para decidir, más control en cada kilómetro.</p><div class="cta"><a class="btn" href="#marketplace">Explorar repuestos <span aria-hidden="true">↗</span></a><a class="btn secondary" href="#vehiculo">Organizar mi vehículo</a></div><form class="nurvo-plate-entry" id="hero-plate-form"><label for="hero-plate">Busca necesidades según tu vehículo</label><div class="entry-row"><input id="hero-plate" maxlength="8" required placeholder="Ej. ABCD12" autocomplete="off"><button class="btn" type="submit">Comenzar ↗</button></div><small>Patente como identificador; no se consultan registros oficiales.</small></form><p class="note">TU AUTO, BAJO CONTROL.</p></div><div class="hero-visual" role="img" aria-label="Automóvil deportivo en un entorno oscuro"><div class="hero-label">EL CAMINO EMPIEZA CONTIGO<strong>Prepárate para lo que viene.</strong></div></div></div></div>
+<div id="nurvo-progress" aria-hidden="true"></div><main id="main"><div class="hero" id="inicio"><div class="nurvo-hero-glow" aria-hidden="true"></div><div class="wrap hero-grid"><div class="hero-copy"><div class="eyebrow">Menos vueltas. Más camino.</div><h1>Todo lo que tu auto<br>necesita, <em>en un solo lugar.</em></h1><p>Organiza tu vehículo, planifica sus cuidados y encuentra repuestos. Más información para decidir, más control en cada kilómetro.</p><div class="cta"><a class="btn" href="#marketplace">Explorar repuestos <span aria-hidden="true">↗</span></a><a class="btn secondary" href="#vehiculo">Organizar mi vehículo</a></div><form class="nurvo-plate-entry" id="hero-plate-form"><label for="hero-plate">Busca necesidades según tu vehículo</label>
+<div class="chile-plate-preview" aria-hidden="true">
+  <div class="chile-plate-badge">
+    <div class="chile-plate-band">
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><rect width="12" height="8" fill="#0039A6"/><rect y="4" width="12" height="4" fill="#D52B1E"/><rect width="12" height="4" fill="white"/><polygon points="3,0.8 3.3,1.8 4.4,1.8 3.5,2.4 3.9,3.4 3,2.7 2.1,3.4 2.5,2.4 1.6,1.8 2.7,1.8" fill="white"/></svg>
+      <span>CHILE</span>
+    </div>
+    <div class="chile-plate-text" id="hero-plate-visual">
+      <span>AB</span><span class="chile-plate-dot">·</span><span>CD</span><span class="chile-plate-dot">·</span><span>12</span>
+    </div>
+  </div>
+  <div class="chile-plate-quick-tags">
+    <span class="plate-tip-label">Prueba rápida:</span>
+    <button type="button" class="plate-chip" data-sample-plate="GKRP12">GK·RP·12</button>
+    <button type="button" class="plate-chip" data-sample-plate="BB1024">BB·10·24</button>
+    <button type="button" class="plate-chip" data-sample-plate="HXBL88">HX·BL·88</button>
+  </div>
+</div>
+<div class="entry-row"><input id="hero-plate" maxlength="8" required placeholder="Ej. ABCD12" autocomplete="off"><button class="btn" type="submit">Comenzar ↗</button></div><small>Patente como identificador; no se consultan registros oficiales.</small></form><p class="note">TU AUTO, BAJO CONTROL.</p></div><div class="hero-visual" role="img" aria-label="Automóvil deportivo en un entorno oscuro"><div class="hero-label">EL CAMINO EMPIEZA CONTIGO<strong>Prepárate para lo que viene.</strong></div></div></div></div>
 <div class="quick-access"><div class="wrap quick-grid"><a href="#confianza"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m16 3 11 5v8c0 7-11 13-11 13S5 23 5 16V8Z"/><path d="m11 15 4 4 7-8"/></svg><strong>Información clara</strong><span>Conoce el alcance de NURVO</span></a><a href="#vehiculo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m4 21 4-11h16l4 11v5H4Zm4-11 2-5h12l2 5M4 18h24M9 23h2m10 0h2"/></svg><strong>Mi vehículo</strong><span>Datos e historial a mano</span></a><a href="#vehiculo"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="24" height="22" rx="2"/><path d="M10 3v8m12-8v8M4 15h24m-18 6h4m4 0h4"/></svg><strong>Plan de mantenimiento</strong><span>Tu agenda de cuidados</span></a><a href="#marketplace"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m16 3 12 7v13l-12 7-12-7V10Zm0 14 12-7M4 10l12 7v13M10 6l12 7"/></svg><strong>Repuestos y accesorios</strong><span>Explora categorías para cotizar</span></a><a href="#empresas"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M28 5a8 8 0 0 1-10 10L8 28a4 4 0 0 1-5-5L16 13A8 8 0 0 1 25 3l-6 6 4 4Z"/></svg><strong>Talleres y empresas</strong><span>Un espacio para conectar</span></a></div></div><div class="strip"><div class="wrap"><div><strong>01 / Encuentra</strong><span>Compara repuestos de referencia</span></div><div><strong>02 / Organiza</strong><span>Guarda tu vehículo y sus tareas</span></div><div><strong>03 / Decide</strong><span>Confirma cada detalle antes de comprar</span></div></div></div>
 
 <div class="nurvo-ticker" aria-label="Principios NURVO"><div class="wrap nurvo-ticker-inner"><span>Diseñado para conductores</span><span>Información sin vueltas</span><span>Control en cada kilómetro</span><span>Experiencia intuitiva</span></div></div>
@@ -487,5 +518,60 @@ if(hero&&glow&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
   },{passive:true});
 }
 })();
-</script><script src="config.js"></script><script src="assets/patente-api.js" defer></script></body></html>
+
+/* NURVO Interactive Real-time Chilean Plate Preview & Quick Samples */
+(function(){
+  const heroInput = document.getElementById('hero-plate');
+  const visual = document.getElementById('hero-plate-visual');
+  const diagInput = document.querySelector('#diag-form [name="plate"]');
+  const officialInput = document.getElementById('official-plate');
+
+  function formatPlate(raw){
+    const clean = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+    if(clean.length >= 4){
+      const p1 = clean.slice(0, 2);
+      const p2 = clean.slice(2, 4);
+      const p3 = clean.slice(4);
+      return '<span>' + p1 + '</span><span class="chile-plate-dot">·</span><span>' + p2 + '</span>' + (p3 ? '<span class="chile-plate-dot">·</span><span>' + p3 + '</span>' : '');
+    } else if(clean.length >= 2){
+      return '<span>' + clean.slice(0, 2) + '</span>' + (clean.slice(2) ? '<span class="chile-plate-dot">·</span><span>' + clean.slice(2) + '</span>' : '');
+    }
+    return '<span>AB</span><span class="chile-plate-dot">·</span><span>CD</span><span class="chile-plate-dot">·</span><span>12</span>';
+  }
+
+  function sync(val){
+    if(visual) visual.innerHTML = formatPlate(val);
+  }
+
+  if(heroInput){
+    heroInput.addEventListener('input', e => sync(e.target.value));
+  }
+  if(diagInput){
+    diagInput.addEventListener('input', e => sync(e.target.value));
+  }
+  if(officialInput){
+    officialInput.addEventListener('input', e => sync(e.target.value));
+  }
+
+  document.querySelectorAll('[data-sample-plate]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.getAttribute('data-sample-plate');
+      if(heroInput) heroInput.value = p;
+      if(diagInput) diagInput.value = p;
+      if(officialInput) officialInput.value = p;
+      sync(p);
+      notify('Patente cargada: ' + p);
+    });
+  });
+})();
+
+</script>
+<nav class="nurvo-mobile-dock" aria-label="Navegación rápida móvil">
+  <a href="#marketplace"><span>🔍</span><span>Repuestos</span></a>
+  <a href="#asistente"><span>⚡</span><span>Diagnóstico</span></a>
+  <button type="button" id="nurvo-dock-quote"><span>📋</span><span>Mi lista</span></button>
+</nav>
+<button type="button" id="nurvo-to-top" class="nurvo-to-top" aria-label="Volver arriba">↑</button>
+
+  <script src="config.js"></script><script src="assets/patente-api.js" defer></script></body></html>
 
