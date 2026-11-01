@@ -71,3 +71,28 @@ Inspección directa de la rama actual mediante conector GitHub y comprobaciones 
 ## Evidencia de CI obtenida desde PR #6
 
 El PR #6 (`https://github.com/sandylazo1/NURVO-web/pull/6`) documenta 31 runs fallidos: 8 Ubuntu 26.04 / Playwright 1.56.1, 4 whitespace en `git diff --check`, 1 smoke de catálogo, 17 Pages HTTP 400 por despliegues concurrentes y 1 Jekyll sin carpeta `docs`. En ese PR se informa que el run `41307742153` fue verde en los 3 jobs; también se citan `41307433226` y `41307432547` de `main`. **Es evidencia de esos SHAs, no de esta rama.** PR #5 aborda CI concurrency/Ubuntu. El nuevo job `audit` de esta rama todavía requiere resultado propio.
+
+## Evidencia CI confirmada — run 41307915426
+
+**URL:** https://github.com/sandylazo1/NURVO-web/actions/runs/41307915426
+**SHA:** `108f0ac2e491a8db96d920bbd01d03bf424aeef4` (antes de actualizar este informe).
+
+Consulta del run mediante GitHub Connector: los cuatro jobs terminaron **success**:
+1. `Identify failed historical GitHub Actions jobs` — success; pruebas offline del auditor y publicación de artefacto.
+2. `Static integrity and git commit` — success; `git diff --check` y Node smoke.
+3. `Python API tests` — success; instalación, compilación y pytest.
+4. `Real Chromium UI test` — success; instalación Chromium, flujos escritorio/móvil y artefactos.
+
+**Artefacto real:** `nurvo-failed-actions-audit` ID 13084126767, descargado y leído; 136 ejecuciones revisadas (2 páginas) / **31 fallidas**:
+- 18 runs `pages build and deployment`: 17 fallos en Deploy to GitHub Pages, 1 en Jekyll build.
+- 13 runs `NURVO - CI and visual checks`: 8 instalaciones Playwright, 4 `git diff --check`, 1 smoke test por ID de foto desactualizado.
+
+**Causas confirmadas desde logs reales de jobs:**
+- Run [41306999901](https://github.com/sandylazo1/NURVO-web/actions/runs/41306999901), job 124849357463: `Playwright 1.56.1 does not support chromium on ubuntu26.04-x64`. El workflow actual se fijó en `ubuntu-24.04`; el job browser más reciente ya pasó.
+- Run [41306256999](https://github.com/sandylazo1/NURVO-web/actions/runs/41306256999), job 124847142464: `git diff --check` detectó `trailing whitespace` en `index.html`. La corrección anterior del commit `f13ae7fa` normalizó fin de línea; job frontend más reciente pasó.
+- Run [41290702821](https://github.com/sandylazo1/NURVO-web/actions/runs/41290702821), job 124801194493: `Deploy to GitHub Pages` error HTTP 400: había otro despliegue todavía en curso para SHA `579005672...`. Causa de concurrencia de deploys, no prueba de código roto.
+- Run [41290493360](https://github.com/sandylazo1/NURVO-web/actions/runs/41290493360), job 124800544218: assert de Node `Catálogo con imágenes reales` no coincidía con ID de foto cambiado. Suite actual verde.
+- Run [41282662825](https://github.com/sandylazo1/NURVO-web/actions/runs/41282662825), job 124777585428: Jekyll buscó carpeta `docs` inexistente (`Errno::ENOENT`); el sitio ahora dispone de raíz `index.html` y `.nojekyll`. Verificar la configuración actual de Settings → Pages.
+
+**Pendiente:** confirmación del último despliegue a GitHub Pages (no inferir estado de producción solo por CI del PR). Evitar pushes simultáneos a `main` y no reintentar despliegues de SHAs antiguos (riesgo de rollback).
+
