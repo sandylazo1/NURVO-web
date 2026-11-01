@@ -63,3 +63,7 @@ La rama previa `agent/qa-ci-hardening-20261101` dejó de estar disponible al obs
 ## Cambio concurrente de diseño
 
 La rama vigente `agent/ci-audit-20261101-c` se creó desde el último main conocido `5e65810d`, que incluía cambios grandes en `index.html` de otro agente. No reemplazar ese diseño; la auditoría CI se mantiene separada.
+
+## Auditoría verificada por trabajo paralelo (2026-11-01)
+
+PR #6 reporta 31 fallos documentados en `QA_REPORT.md`: 8 incompatibilidades Ubuntu/Playwright, 4 whitespace, 1 smoke de catálogo, 17 despliegues Pages concurrentes y 1 configuración Jekyll/docs. Run de PR #6 `41307742153` reportado verde en frontend, Chromium y backend; no equivale a validación de esta rama. PR #5 ya propone concurrency y guardia Ubuntu, no duplicar. PR #7 (esta rama) permanece en borrador hasta tener sus propios checks verdes. Issue #3 coordina Antigravity.
