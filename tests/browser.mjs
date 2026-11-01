@@ -58,8 +58,10 @@ try {
   // Page without configured API must be explicit, never invent records.
   await page.locator('#official-plate').fill('ABCD12');
   await page.locator('#official-plate-form button[type="submit"]').click();
-  assert.match(await page.locator('#official-status').textContent(), /No hay backend conectado|Modo demostración|API/i);
-  assert.equal(await page.locator('#official-result').isHidden(), true);
+  assert.match(await page.locator('#official-status').textContent(), /Sin API conectada|No hay backend conectado|Modo demostración|API/i);
+  assert.equal(await page.locator('#official-result').isHidden(), false);
+  assert.match(await page.locator('#official-fields').textContent(), /No verificado/i);
+  assert.match(await page.locator('#official-sync').textContent(), /Última sincronización de datos: No disponible/i);
 
   // The manual inspection assistant still runs.
   await page.locator('#diag-form [name="plate"]').fill('ABCD12');
@@ -81,6 +83,7 @@ try {
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: 'domcontentloaded' });
+  assert.equal(await page.locator('.nurvo-mobile-dock').isVisible(), true, 'La navegación móvil debe aparecer');
   await page.locator('#menu').click();
   assert.equal(await page.locator('#menu').getAttribute('aria-expanded'), 'true');
   assert.equal(await page.locator('#nav').evaluate(el => el.classList.contains('open')), true);
