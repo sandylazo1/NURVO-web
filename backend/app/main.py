@@ -15,6 +15,7 @@ from .models import HealthResponse, PlateResponse
 from .providers import LicensedProvider
 from .scheduler import make_scheduler
 from .service import PlateService
+from .vin import decode_vin
 
 # Only common Chilean formats; format validity does not prove a plate exists.
 PLATE_PATTERN = re.compile(r"^(?:[A-Z]{4}[0-9]{2}|[A-Z]{2}[0-9]{4})$")
@@ -93,3 +94,8 @@ async def sources():
         "aviso": "El estado no_verificado NO significa ausencia de encargo ni multas.",
         "propietario": "NURVO no consulta, almacena ni expone datos personales del propietario.",
     }
+
+@app.get("/api/vin/{vin}", dependencies=[Depends(rate_limit)])
+async def get_vin(vin: str):
+    """Decode an individual 17-digit VIN using NHTSA vPIC (not Chilean registration)."""
+    return await decode_vin(vin)
