@@ -88,6 +88,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Test audit parser offline
+        run: python -m unittest discover -s tests -p 'test_audit_actions.py' -v
       - name: Collect run IDs and failing steps
         env:
           GITHUB_TOKEN: ${{ github.token }}
