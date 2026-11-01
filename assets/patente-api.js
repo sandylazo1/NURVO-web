@@ -86,6 +86,10 @@
     })[data.estado_consulta] || 'No verificado');
     sync.textContent = lastSync(data.ultima_actualizacion);
     notice.textContent = data.mensaje || 'Este resultado no reemplaza los certificados oficiales.';
+    const attribution = document.getElementById('official-provider-attribution');
+    if (attribution) attribution.hidden = !(
+      typeof data.fuente === 'string' && /autoriesgo/i.test(data.fuente)
+    );
     use.hidden = !(data.marca && data.modelo && data.ano);
     if (data.estado_consulta === 'actualizando') setState('Mostrando la última información disponible. Se está solicitando actualización.');
     else if (data.estado_consulta === 'actualizado') setState('Respuesta recibida del proveedor.');
