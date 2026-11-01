@@ -10,7 +10,7 @@ permissions:
 jobs:
   frontend:
     name: Static integrity and git commit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,7 +30,7 @@ jobs:
         run: node tests/smoke.mjs
   browser:
     name: Real Chromium UI test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: frontend
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
           retention-days: 7
   backend:
     name: Python API tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
