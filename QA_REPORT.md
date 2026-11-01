@@ -54,3 +54,16 @@ El workflow incluye job `audit` con permisos `actions: read`, ejecuta `scripts/a
 ## Aislamiento adicional
 
 Se detectó `main` SHA `5e65810d`, commit de rediseño de `index.html`; la rama actual parte de ese SHA, para preservar el rediseño concurrente y evitar conflictos en PR #4.
+
+## Verificación estática adicional (2026-11-01)
+
+Inspección directa de la rama actual mediante conector GitHub y comprobaciones JavaScript en memoria:
+
+- `index.html`: 259.684 caracteres; 84 identificadores HTML, **0 duplicados**.
+- Catálogo: 8 pares de fotografías declarados (16 IDs de foto distintos).
+- Logotipo: 2 PNG incrustados en el HTML.
+- Scripts: `config.js` y `assets/patente-api.js` referenciados desde HTML.
+- `new Function(...)` aceptó el script principal y `assets/patente-api.js` sin errores de sintaxis.
+- Persisten la barra móvil, consulta por patente, solicitud de cotización, sin referencias a `money(p.price)`.
+
+**Estas son pruebas estáticas, no navegación real, validez de links remotos ni evidencia de pruebas GitHub Actions en verde.** El job `audit` debería publicar identificadores reales de fallos tras ejecutarse; aún no hay artefacto confirmado en la conexión actual.
