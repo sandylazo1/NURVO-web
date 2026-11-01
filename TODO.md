@@ -36,3 +36,13 @@ No hacer `push --force`, no fusionar pruebas rojas, no asumir conexión con Anti
 - [x] Añadir captura de pantalla en fallo de Chromium.
 - [x] Restaurar documentación y assets SEO desde commits recuperables.
 - [ ] Obtener artefacto `nurvo-failed-actions-audit` tras CI y clasificar errores; sin run real no marcar como verificado.
+
+## Estado de CI tras ejecutar run 41307915426
+
+- [x] Obtener IDs concretos de runs fallidos mediante artefacto `nurvo-failed-actions-audit`: 31 de 136 revisados.
+- [x] Comprobar el resultado del auditor, Node smoke, pytest y Chromium en GitHub Actions: **4/4 success** para run 41307915426.
+- [x] Clasificar causas verificadas en `QA_REPORT.md`: Ubuntu no compatible, trailing whitespace, ID foto de smoke, ruta Jekyll `docs` y concurrencia Pages.
+- [ ] Confirmar *último* despliegue Pages de main (la ejecución de PR no publica Pages).
+- [ ] Revisar conflictos con cambios nuevos de main antes de fusionar; no forzar.
+- [ ] Coordinar revisión de Antigravity por issue #3.
+
