@@ -85,3 +85,21 @@ Se inspeccionaron los jobs/pasos fallidos de todos los IDs y los logs de sus cat
 - **PR #6 (este informe)**: mantiene la evidencia histórica por ID y causa; el PR #7 incluye un auditor automatizado y puede ser el candidato principal para integración tras revisión cruzada. El informe histórico de 31 fallos no representa 31 fallos actuales. No repetir fixes ni atribuir recepción automática de issue #1 a Antigravity.
 
 **Alcance de esta actualización:** documentación en rama propia; ninguna modificación de backend, frontend, secretos o `main`. No se ejecutaron tests locales en esta actualización; los éxitos descritos son exclusivamente ejecuciones reales de GitHub Actions vinculadas a sus SHAs.
+## Seguimiento adicional — 2026-11-01, 12:24 America/Santiago
+
+**Nuevo inventario paginado completo de GitHub Actions:** 142 ejecuciones en la API (páginas 1 y 2 de 100): **35 fallidas, 40 canceladas, 67 exitosas**. El inventario anterior de 31 fallos era correcto para su corte; se agregaron **4 fallos históricos de SHAs intermedios del PR #7**. No representan un fallo del último SHA de ese PR.
+
+| Run fallido | SHA de PR (prefijo) | Job / paso | Evidencia literal del log |
+|---|---|---|---|
+| [41308133345](https://github.com/sandylazo1/NURVO-web/actions/runs/41308133345) | `0b8800dc` | Static integrity / Verify git working tree and commit | `AGENT_PROGRESS.md:78: new blank line at EOF.` y `QA_REPORT.md:98: new blank line at EOF.` |
+| [41308139733](https://github.com/sandylazo1/NURVO-web/actions/runs/41308139733) | `0b2f8de0` | Static integrity / Verify git working tree and commit | `AGENT_PROGRESS.md:78`, `QA_REPORT.md:98`, `TODO.md:48`: `new blank line at EOF.` |
+| [41308226258](https://github.com/sandylazo1/NURVO-web/actions/runs/41308226258) | `75708b0d` | Static integrity / Verify git working tree and commit | `QA_REPORT.md:98` y `TODO.md:48`: `new blank line at EOF.` |
+| [41308228580](https://github.com/sandylazo1/NURVO-web/actions/runs/41308228580) | `001eeb46` | Static integrity / Verify git working tree and commit | `QA_REPORT.md:98: new blank line at EOF.` |
+
+En los cuatro casos el comando `git diff --check HEAD^ HEAD` devolvió **exit code 2** por líneas en blanco añadidas al final de documentos Markdown. Los jobs de **Python API tests** y del **auditor** sí pasaron en esos runs; Chromium quedó `skipped` por dependencia del job de integridad, por lo que no puede declararse que Chromium falló.
+
+**Corrección posterior verificada sin modificar la rama ajena:** [run 41308234630](https://github.com/sandylazo1/NURVO-web/actions/runs/41308234630), SHA `7b8c3e9afa5e8cca250d973f75afd42bb32d8a05`, completó **4/4 jobs success** (auditor, integridad/Node, pytest, Chromium). La rama del PR #7 ya corrigió los EOF; no repetir la reparación ni editar su rama.
+
+**Últimos estados comprobados:** [PR #6 run 41314161627](https://github.com/sandylazo1/NURVO-web/actions/runs/41314161627), SHA `f15f83b8157ae00d1b04483955ca0a1b7500fddd`, **3/3 jobs success** antes de este nuevo commit; [main CI 41307433226](https://github.com/sandylazo1/NURVO-web/actions/runs/41307433226) **3/3 success** y [Pages 41307432547](https://github.com/sandylazo1/NURVO-web/actions/runs/41307432547) build/deploy **success**, ambos en `5e65810d`. El PR #4 continúa `mergeable=false`, PR #5, #6 y #7 siguen abiertos sin fusionar, y PR #2 cerrado sin merge.
+
+**Limitaciones de esta ejecución:** se inspeccionaron logs reales de los 4 jobs fallidos y los pasos de los jobs verdes mediante GitHub; no se ejecutaron tests locales porque el contenedor no resuelve `github.com` al clonar. Las pruebas de frontend/backend citadas son ejecuciones reales de GitHub Actions, no resultados locales. Pages no ejecuta FastAPI ni verifica por sí solo robos, multas, patentes o compatibilidad de repuestos.
