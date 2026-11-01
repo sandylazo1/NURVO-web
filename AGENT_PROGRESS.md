@@ -75,4 +75,3 @@ PR #6 reporta 31 fallos documentados en `QA_REPORT.md`: 8 incompatibilidades Ubu
 - Los 4 jobs del run 41307915426 (auditor, frontend, backend, Chromium) terminaron **success**.
 - Las causas antiguas se documentan con enlaces concretos en `QA_REPORT.md`.
 - La rama permanece aislada y el PR #7 sigue sin fusionar; el despliegue real de Pages debe verificarse tras aprobación.
-
