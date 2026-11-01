@@ -107,7 +107,14 @@
     if (placeholder) placeholder.hidden = false;
     latest = null;
     if (!BASE) {
-      setState('No hay backend conectado. Puedes continuar con el asistente manual o verificar en sitios oficiales.');
+      render({
+        patente: plate, marca: null, modelo: null, ano: null,
+        estado_robo: 'no_verificado', multas: null,
+        fuente: null, ultima_actualizacion: null,
+        estado_consulta: 'sin_fuente',
+        mensaje: 'La patente solo fue validada por formato. No existe consulta a registros oficiales ni confirmación de que el vehículo exista.',
+      });
+      setState('Sin API conectada. Copia tu patente y comprueba los datos en los portales externos.');
       return;
     }
     if (!/^https:\/\//i.test(BASE) && !/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(BASE)) {
@@ -148,6 +155,23 @@
     });
   }
 
+
+  const copyPlate = document.getElementById('official-copy-plate');
+  if (copyPlate) copyPlate.addEventListener('click', async () => {
+    const plate = plateInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (!validPlate(plate)) {
+      setState('Ingresa primero una patente de seis caracteres.');
+      plateInput.focus();
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(plate);
+      setState('Patente ' + plate + ' copiada. Pégala en el servicio externo que elijas.');
+    } catch {
+      plateInput.select();
+      setState('Seleccioné la patente para que puedas copiarla con Ctrl+C.');
+    }
+  });
   const vinForm = document.getElementById('official-vin-form');
   if (vinForm) vinForm.addEventListener('submit', async event => {
     event.preventDefault();
@@ -159,7 +183,14 @@
       return;
     }
     if (!BASE) {
-      output.textContent = 'Para decodificar el VIN desde NURVO, despliega y conecta el backend. La API de NHTSA es pública.';
+      output.replaceChildren();
+      output.append(document.createTextNode('Consulta el VIN directamente en la herramienta oficial NHTSA: '));
+      const link = document.createElement('a');
+      link.href = 'https://vpic.nhtsa.dot.gov/decoder/';
+      link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.textContent = 'Abrir decodificador VIN ↗';
+      link.style.textDecoration = 'underline';
+      output.append(link);
       return;
     }
     button.disabled = true;
