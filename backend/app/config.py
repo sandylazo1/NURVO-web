@@ -16,6 +16,8 @@ class Settings:
     provider_kind: str = field(default_factory=lambda: os.getenv("NURVO_PROVIDER_KIND", "disabled").lower())
     provider_url: str = field(default_factory=lambda: os.getenv("NURVO_PROVIDER_URL", "").strip())
     provider_token: str = field(default_factory=lambda: os.getenv("NURVO_PROVIDER_TOKEN", "").strip())
+    autoriesgo_fetch_theft: bool = field(default_factory=lambda: flag("NURVO_AUTORIESGO_FETCH_THEFT"))
+    autoriesgo_fetch_fines: bool = field(default_factory=lambda: flag("NURVO_AUTORIESGO_FETCH_FINES"))
     provider_name: str = field(default_factory=lambda: os.getenv("NURVO_PROVIDER_NAME", "Proveedor autorizado").strip())
     provider_authorized: bool = field(default_factory=lambda: flag("NURVO_PROVIDER_AUTHORIZED"))
     verified_theft_source: bool = field(default_factory=lambda: flag("NURVO_VERIFIED_THEFT_SOURCE"))
@@ -36,6 +38,8 @@ class Settings:
     enable_docs: bool = field(default_factory=lambda: flag("NURVO_ENABLE_DOCS", True))
     allowed_hosts: tuple[str, ...] = field(default_factory=lambda: csv("NURVO_ALLOWED_HOSTS", "localhost,127.0.0.1,*.onrender.com,*.railway.app,*.fly.dev"))
     def ready(self) -> bool:
+        if self.provider_kind == "autoriesgo":
+            return self.provider_authorized and bool(self.provider_token)
         return (self.provider_authorized and self.provider_kind in {"json_api", "playwright"} and bool(self.provider_url)
                 and (self.provider_kind != "playwright" or (
                     self.allow_playwright and bool(self.plate_input_selector)
