@@ -3,7 +3,7 @@
 **Fecha de trabajo:** 2026-11-01 (America/Santiago)
 **Repositorio:** https://github.com/sandylazo1/NURVO-web
 **Producción estática:** https://sandylazo1.github.io/NURVO-web/
-**Rama de este agente:** `agent/qa-ci-hardening-20261101` (base `main`).
+**Rama vigente de este agente:** `agent/ci-audit-20261101-b` (base `main` SHA `f13ae7fa`).
 **Regla:** no editar `main` directamente mientras haya agentes concurrentes; incorporar vía PR con pruebas.
 
 ## Cambios ya guardados en main antes de esta rama
@@ -51,3 +51,11 @@
 ## Nota de concurrencia 2026-11-01
 
 La rama previa `agent/qa-ci-hardening-20261101` dejó de estar disponible al observar cambios concurrentes. Se conserva documentación en `agent/ci-audit-20261101-b`, creada a partir del commit `f13ae7fa` de `main` (corrección de CI por otro agente). **No se fuerza ni restablece la rama anterior.** Consultar PR #2 y issue #3 antes de integrar.
+
+## Trabajo de esta rama
+
+- Script `scripts/audit-actions.py`: consulta REST API de GitHub Actions con token temporal y permiso `actions: read` y genera artefacto con run IDs, jobs y pasos fallidos (no logs crudos).
+- Workflow agrega un job `audit` independiente para producir `nurvo-failed-actions-audit` en cada PR. No permite confirmar logs retroactivamente hasta su ejecución.
+- QA Chromium captura `nurvo-failed-state.png` ante fallas.
+- Recursos SEO agregados: canonical/OG, robots, sitemap y manifest.
+- PR anterior #2 puede haberse quedado con rama no disponible: no restaurar ni fusionar sin revisar. La rama actual es independiente.
