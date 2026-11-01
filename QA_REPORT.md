@@ -67,3 +67,7 @@ Inspección directa de la rama actual mediante conector GitHub y comprobaciones 
 - Persisten la barra móvil, consulta por patente, solicitud de cotización, sin referencias a `money(p.price)`.
 
 **Estas son pruebas estáticas, no navegación real, validez de links remotos ni evidencia de pruebas GitHub Actions en verde.** El job `audit` debería publicar identificadores reales de fallos tras ejecutarse; aún no hay artefacto confirmado en la conexión actual.
+
+## Evidencia de CI obtenida desde PR #6
+
+El PR #6 (`https://github.com/sandylazo1/NURVO-web/pull/6`) documenta 31 runs fallidos: 8 Ubuntu 26.04 / Playwright 1.56.1, 4 whitespace en `git diff --check`, 1 smoke de catálogo, 17 Pages HTTP 400 por despliegues concurrentes y 1 Jekyll sin carpeta `docs`. En ese PR se informa que el run `41307742153` fue verde en los 3 jobs; también se citan `41307433226` y `41307432547` de `main`. **Es evidencia de esos SHAs, no de esta rama.** PR #5 aborda CI concurrency/Ubuntu. El nuevo job `audit` de esta rama todavía requiere resultado propio.
