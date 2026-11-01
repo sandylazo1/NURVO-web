@@ -45,6 +45,8 @@ class LicensedProvider:
             values = await self._playwright(plate)
         else:
             raise SourceUnavailable("Proveedor deshabilitado")
+        if not any(values.get(k) for k in ("marca", "make", "modelo", "model", "ano", "year")) and not values.get("estado_robo") and not values.get("multas"):
+            raise SourceUnavailable("Fuente sin datos estructurales verificables")
         # Never persist or expose owner/RUT/address even if source supplies these.
         raw_year = values.get("ano", values.get("year"))
         try:
