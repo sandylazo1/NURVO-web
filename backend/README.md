@@ -39,6 +39,29 @@ La API nunca expone nombre, RUT, teléfono, dirección ni otros datos del propie
 
 ## Fuentes
 
+## Proveedor chileno: AutoRiesgo (integración real disponible)
+
+AutoRiesgo publica una API comercial de vehículos por patente chilena. **No hemos comprado ni conectado una credencial.** Para habilitarla con un contrato válido:
+
+```ini
+NURVO_PROVIDER_KIND=autoriesgo
+NURVO_PROVIDER_TOKEN=MI_CLAVE_PRIVADA
+NURVO_PROVIDER_AUTHORIZED=true
+# Las siguientes opciones requieren contratar los endpoints correspondientes:
+NURVO_AUTORIESGO_FETCH_THEFT=false
+NURVO_AUTORIESGO_FETCH_FINES=false
+NURVO_VERIFIED_THEFT_SOURCE=false
+NURVO_VERIFIED_FINES_SOURCE=false
+```
+
+El servidor consulta `GET https://api.autoriesgo.cl/api/v1/vehicle/{patente}` con el encabezado privado `X-Api-Key`. Lee `{patente, found, vehicle, error}` y **excluye** cualquier dato del dueño (no solicita `include_owner=true`). Si se contratan consultas de encargo y multas, pueden habilitarse por separado; ante un error mostrarán `no_verificado` en lugar de presumir que no existen.
+
+- Documentación del proveedor: https://autoriesgo.cl/llms.txt
+- API comercial: https://autoriesgo.cl/api
+- El plan informado por AutoRiesgo puede tener límite de 5 solicitudes por minuto. El refresco de 03:00 debe configurarse respetando el acuerdo comercial; para un plan limitado, utilice por ejemplo `NURVO_REFRESH_DELAY_SECONDS=15`.
+- Evita scraping del sitio web de AutoRiesgo: publica API expresamente y solicita usar los endpoints de API.
+
+
 - `NURVO_PROVIDER_KIND=disabled` por defecto: no genera datos. Requiere un convenio o permiso con una fuente legítima.
 - `json_api`: proveedor contratado mediante endpoint HTTPS con parámetro `{patente}`, respuesta JSON con campos `marca`, `modelo`, `ano`, `estado_robo` y `multas`. Requiere `NURVO_PROVIDER_AUTHORIZED=true`, `NURVO_PROVIDER_URL=https://.../{patente}` y token secreto si corresponde.
 - `playwright`: opcional solo para un sitio con autorización para automatización, **sin evitar captcha, bloqueo o login**. Instala `requirements-playwright.txt`, ejecuta `playwright install chromium`, habilita `NURVO_ALLOW_PLAYWRIGHT=true` y define selectores reales de formulario y resultados en variables de entorno. No se proporcionan selectores inventados para Auto Seguro.
