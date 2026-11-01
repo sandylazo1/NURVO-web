@@ -59,12 +59,22 @@
     row('Año', data.ano);
     row('Fuente de los datos', data.fuente || 'Sin proveedor conectado');
     const theft = el('span', 'official-badge', 'Encargo por robo: No verificado');
+    const sourceTime = data.ultima_actualizacion ? new Date(data.ultima_actualizacion).getTime() : NaN;
+    const fresh = data.estado_consulta === 'actualizado' &&
+      Number.isFinite(sourceTime) && sourceTime <= Date.now() &&
+      Date.now() - sourceTime <= 24 * 60 * 60 * 1000;
     if (data.estado_robo === 'encargo_vigente') {
       theft.className = 'official-badge is-alert';
-      theft.textContent = 'Posible encargo vigente · verifica oficialmente';
+      theft.textContent = fresh ?
+        'Posible encargo vigente · verifica oficialmente' :
+        'Encargo reportado anteriormente · verifica vigencia';
     } else if (data.estado_robo === 'sin_encargo_reportado') {
-      theft.className = 'official-badge is-reported';
-      theft.textContent = 'Sin encargo reportado por la fuente consultada';
+      if (fresh) {
+        theft.className = 'official-badge is-reported';
+        theft.textContent = 'Sin encargo reportado por la fuente consultada';
+      } else {
+        theft.textContent = 'Resultado anterior desactualizado · NO verificado ahora';
+      }
     }
     const wrap = el('div', 'official-data-row'); wrap.append(el('dt', '', 'Encargo por robo'), el('dd')); wrap.querySelector('dd').append(theft); fields.append(wrap);
     row('Multas', data.multas || 'No verificadas. Consulta el certificado oficial.');
