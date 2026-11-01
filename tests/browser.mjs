@@ -81,6 +81,26 @@ try {
   await mkdir('test-artifacts', { recursive: true });
   await page.screenshot({ path: 'test-artifacts/nurvo-desktop.png', fullPage: true, animations: 'disabled' });
 
+  // The shortcut bar must not cover the page or intercept the header menu.
+  for (const width of [320, 360, 390, 430, 768, 960]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Sin desbordamiento a ${width}px`);
+    if (width <= 600) {
+      const dock = await page.locator('.nurvo-mobile-dock').boundingBox();
+      assert.ok(dock && dock.height < 100 && dock.y > 700, 'La barra móvil queda al pie sin cubrir el contenido');
+      await page.locator('.nurvo-mobile-dock button').click();
+      assert.equal(await page.locator('#cart-dialog').evaluate(el => el.open), true);
+      await page.keyboard.press('Escape');
+    }
+    await page.locator('#menu').click();
+    assert.equal(await page.locator('#nav').isVisible(), true);
+    await page.locator('#nav a[href="#marketplace"]').click();
+    assert.equal(await page.locator('#menu').getAttribute('aria-expanded'), 'false');
+    await page.locator('#search').fill('frenos');
+    assert.equal(await page.locator('#products .product').count(), 1);
+  }
+
   await page.setViewportSize({ width: 390, height: 844 });
   await page.reload({ waitUntil: 'domcontentloaded' });
   assert.equal(await page.locator('.nurvo-mobile-dock').isVisible(), true, 'La navegación móvil debe aparecer');
