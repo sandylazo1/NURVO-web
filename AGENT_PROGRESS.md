@@ -1,9 +1,9 @@
 # NURVO — Estado de continuidad y coordinación
 
-**Fecha de trabajo:** 2026-11-01 (America/Santiago)  
-**Repositorio:** https://github.com/sandylazo1/NURVO-web  
-**Producción estática:** https://sandylazo1.github.io/NURVO-web/  
-**Rama de este agente:** `agent/qa-ci-hardening-20261101` (base `main`).  
+**Fecha de trabajo:** 2026-11-01 (America/Santiago)
+**Repositorio:** https://github.com/sandylazo1/NURVO-web
+**Producción estática:** https://sandylazo1.github.io/NURVO-web/
+**Rama de este agente:** `agent/qa-ci-hardening-20261101` (base `main`).
 **Regla:** no editar `main` directamente mientras haya agentes concurrentes; incorporar vía PR con pruebas.
 
 ## Cambios ya guardados en main antes de esta rama
