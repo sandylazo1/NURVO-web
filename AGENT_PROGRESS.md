@@ -67,3 +67,12 @@ La rama vigente `agent/ci-audit-20261101-c` se creó desde el último main conoc
 ## Auditoría verificada por trabajo paralelo (2026-11-01)
 
 PR #6 reporta 31 fallos documentados en `QA_REPORT.md`: 8 incompatibilidades Ubuntu/Playwright, 4 whitespace, 1 smoke de catálogo, 17 despliegues Pages concurrentes y 1 configuración Jekyll/docs. Run de PR #6 `41307742153` reportado verde en frontend, Chromium y backend; no equivale a validación de esta rama. PR #5 ya propone concurrency y guardia Ubuntu, no duplicar. PR #7 (esta rama) permanece en borrador hasta tener sus propios checks verdes. Issue #3 coordina Antigravity.
+
+## Auditoría completada con evidencias de GitHub
+
+- Job de auditoría `run 41307915426` publicado con éxito: [ver Actions](https://github.com/sandylazo1/NURVO-web/actions/runs/41307915426).
+- Descargado y leído artefacto `nurvo-failed-actions-audit` (13084126767): 136 runs / 31 fallidos, con IDs y steps.
+- Los 4 jobs del run 41307915426 (auditor, frontend, backend, Chromium) terminaron **success**.
+- Las causas antiguas se documentan con enlaces concretos en `QA_REPORT.md`.
+- La rama permanece aislada y el PR #7 sigue sin fusionar; el despliegue real de Pages debe verificarse tras aprobación.
+
