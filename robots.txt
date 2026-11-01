@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sandylazo1.github.io/NURVO-web/sitemap.xml
