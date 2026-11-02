@@ -127,6 +127,7 @@ try {
   }));
   await vinPage.locator('#vin-submit').click();
   assert.match(await vinPage.locator('#vin-status').textContent(), /NHTSA/i);
+  await vinPage.locator('#vin-detail').getByText('HONDA').waitFor({timeout:10000});
   assert.match(await vinPage.locator('#vin-detail').textContent(), /HONDA/);
   await vinPage.locator('#quote-service').fill('Frenos');
   await vinPage.locator('#quote-provider').fill('Cotización manual');
