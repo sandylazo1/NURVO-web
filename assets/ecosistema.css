@@ -16,3 +16,4 @@
 @media(max-width:900px){.hero-grid,.two-col{grid-template-columns:1fr}.output{position:static}.taxonomy,.business-grid,.legal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-head{display:block}.section-head>p{max-width:100%}.nav-links{gap:12px}}
 @media(max-width:600px){.container{width:min(100% - 32px,1160px)}.nav{padding:16px 0}.nav-links{width:100%;gap:13px}.hero{padding:48px 0}.hero-panel{padding:21px}.section{padding-top:51px;padding-bottom:53px}.taxonomy,.business-grid,.legal-grid,.filter-row,.part-grid{grid-template-columns:1fr}.panel{padding:18px}.hero h1{font-size:38px}.footer{display:block}.footer span{display:block;margin:10px 0}.section-head{margin-bottom:18px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+.brand-sources{margin-bottom:24px}
