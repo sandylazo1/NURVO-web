@@ -63,6 +63,10 @@
     field('Identificador ingresado', raw);
     field('Año informado por ti', year || 'No indicado');
     field('Encargo por robo, multas y propietario', 'No verificados. Usa los servicios oficiales de Chile.');
+    if (raw.length === 17 && !allowedVin.test(raw)) {
+      output('El VIN moderno de 17 caracteres no admite I, O ni Q. Revisa la transcripción. Para chasis no estándar, indica el año antiguo si corresponde.', 'error');
+      return;
+    }
     if ((year && year < 1981) || !allowedVin.test(raw)) {
       output('Identificador antiguo o no estandarizado: NHTSA no puede verificar automáticamente vehículos previos a 1981. No se infiere marca, año ni existencia.', 'warning');
       field('Estado', 'Identificador ingresado manualmente; sin identificación automática');
