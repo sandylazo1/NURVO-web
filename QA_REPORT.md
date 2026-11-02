@@ -72,4 +72,3 @@ Revisadas issue #1 y PR #2, #4, #5, #6, #7; los cambios móviles del PR #8 está
 - [ ] Revisar logs reales y corregir en rama exclusiva si hay fallos.
 - [ ] Confirmar Pages del commit integrado si se autoriza merge.
 - [ ] **Antes de pagos/cotización vinculante/cuentas:** abogado chileno, identidad operador, DPA, contratos con proveedores/talleres, API licenciada, medidas técnicas.
-
