@@ -109,6 +109,38 @@ try {
   assert.equal(await page.locator('#nav').evaluate(el => el.classList.contains('open')), true);
   await page.screenshot({ path: 'test-artifacts/nurvo-mobile.png', fullPage: true, animations: 'disabled' });
 
+  // VIN tools are a static Pages route. Mock NHTSA in browser tests: no claim of live API availability.
+  const vinPage = await context.newPage();
+  vinPage.on('pageerror', err => errors.push(err.message));
+  await vinPage.goto(new URL('vin.html', ROOT).href, {waitUntil: 'domcontentloaded'});
+  assert.match(await vinPage.title(), /VIN.*NURVO/);
+  await vinPage.locator('#vin-number').fill('CHASIS1975');
+  await vinPage.locator('#vin-year').fill('1975');
+  await vinPage.locator('#vin-submit').click();
+  assert.match(await vinPage.locator('#vin-status').textContent(), /antiguo|1981/i);
+  assert.match(await vinPage.locator('#vin-detail').textContent(), /no verificados/i);
+  await vinPage.locator('#vin-number').fill('1HGCM82633A004352');
+  await vinPage.locator('#vin-year').fill('');
+  await vinPage.route('https://vpic.nhtsa.dot.gov/**', route => route.fulfill({
+    status: 200, contentType: 'application/json',
+    body: JSON.stringify({Results:[{Make:'HONDA', Model:'ACCORD', ModelYear:'2003', VehicleType:'PASSENGER CAR', ErrorCode:'0'}]})
+  }));
+  await vinPage.locator('#vin-submit').click();
+  assert.match(await vinPage.locator('#vin-status').textContent(), /NHTSA/i);
+  assert.match(await vinPage.locator('#vin-detail').textContent(), /HONDA/);
+  await vinPage.locator('#quote-service').fill('Frenos');
+  await vinPage.locator('#quote-provider').fill('Cotización manual');
+  await vinPage.locator('#quote-price').fill('15000');
+  await vinPage.locator('#quote-date').fill(new Date().toISOString().slice(0,10));
+  await vinPage.locator('#quote-form button').click();
+  assert.match(await vinPage.locator('#quote-list').textContent(), /15.000/);
+  assert.match(await vinPage.locator('#quote-list').textContent(), /no verificado/i);
+  await vinPage.locator('#center-location').fill('Santiago');
+  await vinPage.locator('#center-form button').click();
+  assert.equal(await vinPage.locator('#center-link').isHidden(), false);
+  assert.match(await vinPage.locator('#center-link').getAttribute('href'), /google\.com\/maps\/search/);
+  await vinPage.close();
+
   assert.deepEqual(errors, [], 'Errores de JavaScript en navegador');
   console.log('NURVO browser checks passed: desktop, mobile, logos, search, images, quote list, compare, diagnostic, carousels.');
   if (warnings.length) console.log('Browser warnings (nonfatal): ' + warnings.slice(0, 6).join(' | '));
