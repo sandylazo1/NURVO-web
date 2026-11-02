@@ -12,6 +12,9 @@ Fecha: 2026-11-02. Rama: `agent/vin-services-20261102`. Base: `main` SHA `05fb6f
 - `tests/vin.mjs` y pruebas Playwright del flujo estático con respuesta NHTSA simulada, sin fingir verificación real.
 
 ## Estado de pruebas
+- Primer run [41513625907](https://github.com/sandylazo1/NURVO-web/actions/runs/41513625907), SHA `6892a229`: frontend y backend verdes; Chromium falló en `tests/browser.mjs:130` al afirmar `HONDA` antes de que resolviera el `fetch` asíncrono simulado. Log real inspeccionado; no fue un fallo de identificación vehicular.
+- Corrección en [commit 9e8f66c](https://github.com/sandylazo1/NURVO-web/commit/9e8f66c7f52bf4e4d3f3f5c4b8f0c8a7af12a93f): `waitFor` de Playwright antes de leer resultado.
+- Segundo run [41513840348](https://github.com/sandylazo1/NURVO-web/actions/runs/41513840348): **3/3 jobs verdes**. Frontend `tests/smoke.mjs` y `tests/vin.mjs` aprobados, backend **10 passed, 1 warning**, Chromium desktop/mobile y flujo VIN/cotizaciones/talleres con NHTSA simulada aprobados. Logs inspeccionados. Los datos simulados solo prueban renderizado, nunca identidad real.
 - CI requerido en PR: `node tests/smoke.mjs`, `node tests/vin.mjs`, `node tests/browser.mjs`, `cd backend && python -m pytest -q tests`.
 - Este entorno local no puede resolver DNS a NHTSA; no se hizo consulta en vivo. **Los tests de Playwright simulan exclusivamente una respuesta técnica de NHTSA para probar la UI.**
 - No declarar tests verdes ni despliegue productivo antes de revisar los runs reales del commit más reciente.
