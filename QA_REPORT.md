@@ -41,3 +41,35 @@ Revisadas issue #1 y PR #2, #4, #5, #6, #7; los cambios móviles del PR #8 está
 3. Contratar proveedores e implementar ofertas verificables con identificador, vigencia, moneda, IVA, enlace y stock desde fuentes autorizadas.
 4. Solicitar convenio/credenciales oficiales de datos chilenos y hacer análisis legal/privacidad antes de automatizar consultas; alojar adapter server-side.
 5. Verificar el despliegue después de merge con el workflow y URL, no anticiparlo.
+
+---
+
+## Expansión automotriz, legal y comercial (02-11-2026)
+**Rama:** `agent/automotive-legal-marketplace-20261102` desde main `f3f3025`. Los PR #4/#5/#6/#7 permanecen en sus ramas, no se mezclan ni se fuerza push.
+
+### Implementación
+- `ecosistema.html` + `assets/ecosistema.css` + `assets/ecosistema.js`: página responsiva para genuinos/OEM, OES, aftermarket, remanufacturados, usados, accesorios, explorador de familias, formulario que genera texto local para cotización y advertencias según seguridad/garantía/tenencia de vehículo, talleres mediante búsqueda externa y esquemas B2C/B2B/B2B2C.
+- `terminos.html` y `privacidad.html`: **borradores legales no aprobados**, sin renuncia abusiva de derechos, condicionados a identificar operador jurídico y revisión profesional.
+- `docs/COMPLIANCE_CHILE_2026.md`, `docs/CYBERSECURITY_ASSESSMENT.md`, `docs/MARKET_PARTNERSHIPS_CL.md`, `docs/INTEGRATIONS_MATRIX.md`: legislación chilena, fuentes de ANAC/SERNAC, flotas, compras públicas, tratamientos de datos, brechas técnicas y matriz de integraciones.
+- Navegación agregada desde `index.html` y `vin.html` sin sustituir el rediseño anterior; `README.md` actualizado.
+- Tests nuevos `node tests/ecosistema.mjs` y recorrido de Chromium de catálogo, solicitud, garantía, alquiler, taller, escritorio/móvil, términos y privacidad. Se conserva CI de Python y VIN existentes.
+
+### Límites verificables
+- Ley 21.719: entrada en vigor 01-12-2026; al 02-11-2026 no se puede afirmar certificación ni cumplimiento completo.
+- Ni Registro Civil, ni Carabineros, ni Awto, ni Ford, Hyundai, Derco, Volkswagen, Nissan u hospital poseen conexión/contrato verificado en NURVO.
+- NHTSA vPIC disponible solo según cobertura/condiciones de consulta de VIN; no identifica propietario ni situación legal.
+- Las categorías no constituyen SKU, precio, stock ni compatibilidad confirmada.
+- Los talleres obtenidos en Maps no han sido auditados; NURVO no conoce su política de repuestos.
+- La responsabilidad del usuario no extingue deberes legales de talleres, vendedores ni intermediarios.
+- No automatizar scrapeo ni acceso a organismos públicos; no poner credenciales en GitHub Pages.
+- Tratados comerciales de importación no implican convenios de marca.
+- Uso institucional requiere proceso de compras públicas, representación y resguardo de información.
+
+### Puertas de calidad y despliegue
+- [ ] CI último SHA: `node tests/smoke.mjs`, `node tests/vin.mjs`, `node tests/ecosistema.mjs`.
+- [ ] Chromium (nuevo flujo y pruebas legacy) verde.
+- [ ] Backend: `cd backend && python -m pytest -q tests`.
+- [ ] Revisar logs reales y corregir en rama exclusiva si hay fallos.
+- [ ] Confirmar Pages del commit integrado si se autoriza merge.
+- [ ] **Antes de pagos/cotización vinculante/cuentas:** abogado chileno, identidad operador, DPA, contratos con proveedores/talleres, API licenciada, medidas técnicas.
+
