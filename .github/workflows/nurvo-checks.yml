@@ -27,7 +27,9 @@ jobs:
           git log -1 --format='Verified commit: %H%nSubject: %s'
           git diff --check HEAD^ HEAD
       - name: Verify static site scripts
-        run: node tests/smoke.mjs
+        run: |
+          node tests/smoke.mjs
+          node tests/vin.mjs
   browser:
     name: Real Chromium UI test
     runs-on: ubuntu-24.04
