@@ -85,4 +85,3 @@ Se consultaron enlaces públicos de políticas por marca. No confundir pólizas 
 - **Hyundai Chile:** [repuestos y postventa](https://www.hyundai.cl/repuestos/). La existencia de cotizador oficial no equivale a API conectada a NURVO.
 - **Derco Repuestos:** [FAQ](https://repuestos.derco.cl/faq?tipo=repuestos). Si aparece un plazo comercial más corto, no afirmar que desplaza la garantía legal de seis meses de productos nuevos defectuosos.
 - **Otros fabricantes:** Toyota, Chevrolet, Suzuki, Kia, Chery, MG, Mazda, Renault, etc.; sin documentación por vehículo validada ni convenios NURVO. Solicitar condiciones y póliza actualizadas antes de cotizar.
-
