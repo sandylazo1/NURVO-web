@@ -78,3 +78,29 @@ Revisadas issue #1 y PR #2, #4, #5, #6, #7; los cambios móviles del PR #8 está
 - Corregido sin force push en [commit b47ccdc](https://github.com/sandylazo1/NURVO-web/commit/b47ccdc8daab72b35367e7cf9ccd305e2c3e0bab).
 - [Run #41519196597](https://github.com/sandylazo1/NURVO-web/actions/runs/41519196597), SHA `b47ccdc`: **3/3 trabajos exitosos**; frontend `smoke.mjs`, `vin.mjs`, `ecosistema.mjs`; backend **10 passed, 1 warning**; Chromium incluyó pruebas legacy y nuevo ecosistema, términos, privacidad, documentos, flota, piezas críticas y móvil. Logs inspeccionados.
 - Se añadió [Ley 21.793 (2026)](https://www.bcn.cl/leychile/Navegar?idNorma=1220283) sobre conversiones eléctricas, y enlaces oficiales de postventa Ford, Volkswagen, Nissan, Hyundai y Derco (no convenios). Verificar **CI del último SHA** después de estas revisiones antes de fusionar.
+
+---
+
+## Actualización integral de interfaz, equipo y operaciones — 2026-11-02
+**Rama de revisión:** \`agent/full-web-product-team-20261102\`, basada en main \`625d75a4fae4c948e7b22917d4f93f5ebd1cd19b\`.
+
+### Implementación adicional sin duplicar módulos anteriores
+- \`equipo.html\`: roles declarados: Rafael Vester (CEO, ingeniero mecánico, socio mayoritario proyectado), Tomás Venegas (Founder, Consultor Departamento de Negocios), Sandy Lazo (Co-Founder, Product Management y Consultora Departamento TI). No porcentajes, cesiones de PI ni facultades legales inventadas.
+- \`gestion.html\` / \`assets/gestion.js\`: mantención basada en km y fecha/meses **introducidos por el usuario y respaldados por su manual**, comparación numérica de dos presupuestos CLP con IVA sin validar oferta, registros de flota con alias localStorage, CSV y borrado. Se rechaza formato de patente y VIN en el alias, se limita a 25 entradas y se informa que no es apto para datos sensibles de vehículos institucionales.
+- \`alianzas.html\` / \`assets/alianzas.js\`: generador local de borradores de prospectos B2B/B2B2C; no envío, CRM, convenio ni precios reales, y requisitos de proveedores/talleres/flotas/marcas/sector público.
+- \`assets/nurvo-plus.css\`: identidad NURVO y responsive para páginas nuevas, CSP compatible y navegación móvil.
+- \`index.html\`, \`ecosistema.html\`, \`vin.html\`, \`terminos.html\`, \`privacidad.html\`: enlaces cruzados, módulos accesibles, transparencia sobre persistencia local de flotas.
+- \`docs/TEAM_GOVERNANCE_NURVO.md\`, \`docs/ROADMAP_NURVO_PRODUCTO.md\`: distribución de funciones sin afirmar participación societaria legal, prioridades comerciales e integraciones todavía no disponibles.
+
+### Pruebas y controles
+- \`node tests/smoke.mjs\`: funcionalidades legacy.
+- \`node tests/vin.mjs\`: contrato VIN.
+- \`node tests/ecosistema.mjs\`: legal y ecosistema.
+- \`node tests/expansion.mjs\`: sintaxis JS, roles, CSP, páginas, minimización de datos, no envío/secretos.
+- \`node tests/browser.mjs\`: Chromium desktop/móvil, cálculo km, precios ingresados por usuario, flota local/CSV/borrado, propuestas B2B, equipo.
+- \`cd backend && python -m pytest -q tests\`: backend y proveedor desconectado por defecto.
+- **No afirmar resultado de CI hasta comprobar GitHub Actions del último SHA.** No hubo integración de nuevas API ni pruebas en vivo de registros oficiales.
+- La operación comercial con contratos, pagos, fuentes privadas o datos sensibles **no está habilitada**; los términos y privacidad siguen en borrador sujeto a revisión jurídica.
+
+### Coordinación
+PR #2 cerrado sin merge; PR #4/#5/#6/#7 permanecen independientes, con issue #1 como canal de coordinación de Antigravity. No alterar ramas ajenas, secretos, forzar push ni fusionar cambios con CI rojo.
