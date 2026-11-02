@@ -18,6 +18,14 @@ Sitio público: https://sandylazo1.github.io/NURVO-web/
 - Análisis: [cumplimiento Chile](docs/COMPLIANCE_CHILE_2026.md), [ciberseguridad](docs/CYBERSECURITY_ASSESSMENT.md), [mercado y alianzas](docs/MARKET_PARTNERSHIPS_CL.md), [integraciones](docs/INTEGRATIONS_MATRIX.md).
 - No hay convenios reales con marcas ni Awto, hospitales o Carabineros, ni fuentes de precio/stock conectadas. Solo el VIN público NHTSA se consulta desde el navegador en la herramienta existente; Registro Civil y Auto Seguro son enlaces externos.
 
+## Expansión del sitio web · equipo, mantenimiento, flotas y alianzas
+- [Equipo](equipo.html): Rafael Vester — CEO, ingeniero mecánico y socio mayoritario proyectado; Tomás Venegas — Founder y Consultor del Departamento de Negocios; Sandy Lazo — Co-Founder, Product Management y Consultora del Departamento TI. La distribución societaria y derechos de autor **no se presumen formalizados**.
+- [Mi mantenimiento y flotas](gestion.html): cálculo con intervalos aportados por el manual, comparación numérica de dos presupuestos y registro local anónimo de hasta 25 unidades con exportación CSV / eliminación. Sin sincronización, datos de matrículas o acceso institucional.
+- [Alianzas](alianzas.html): esquema B2B/B2B2C y generador local de propuesta comercial, sin envío ni contratos reales.
+- Navegación conectada desde portada, ecosistema, VIN y páginas jurídicas; diseño responsive consistente.
+- Pruebas `node tests/expansion.mjs` y Playwright con cálculo y flujo local verificados en CI.
+- No reemplaza el backend FastAPI ni constituye conexión oficial a Registro Civil, Carabineros, talleres, fabricantes o catálogos privados.
+
 ## Qué funciona
 - Catálogo editorial de 8 familias de repuestos, fotografías referenciales con alternativa interactiva al pasar el cursor y botón táctil.
 - Búsqueda por texto, filtros por familia y orden alfabético.
