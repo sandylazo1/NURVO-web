@@ -72,3 +72,9 @@ Revisadas issue #1 y PR #2, #4, #5, #6, #7; los cambios móviles del PR #8 está
 - [ ] Revisar logs reales y corregir en rama exclusiva si hay fallos.
 - [ ] Confirmar Pages del commit integrado si se autoriza merge.
 - [ ] **Antes de pagos/cotización vinculante/cuentas:** abogado chileno, identidad operador, DPA, contratos con proveedores/talleres, API licenciada, medidas técnicas.
+
+### Ejecuciones de esta expansión
+- [Run #41519095389](https://github.com/sandylazo1/NURVO-web/actions/runs/41519095389), SHA `eba8d528`: fallo verificado en `git diff --check` por **línea en blanco adicional al final de QA_REPORT.md**. Backend verde; Chromium omitido por dependencia. Ver log del trabajo `Static integrity and git commit`.
+- Corregido sin force push en [commit b47ccdc](https://github.com/sandylazo1/NURVO-web/commit/b47ccdc8daab72b35367e7cf9ccd305e2c3e0bab).
+- [Run #41519196597](https://github.com/sandylazo1/NURVO-web/actions/runs/41519196597), SHA `b47ccdc`: **3/3 trabajos exitosos**; frontend `smoke.mjs`, `vin.mjs`, `ecosistema.mjs`; backend **10 passed, 1 warning**; Chromium incluyó pruebas legacy y nuevo ecosistema, términos, privacidad, documentos, flota, piezas críticas y móvil. Logs inspeccionados.
+- Se añadió [Ley 21.793 (2026)](https://www.bcn.cl/leychile/Navegar?idNorma=1220283) sobre conversiones eléctricas, y enlaces oficiales de postventa Ford, Volkswagen, Nissan, Hyundai y Derco (no convenios). Verificar **CI del último SHA** después de estas revisiones antes de fusionar.
