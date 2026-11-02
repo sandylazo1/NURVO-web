@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es-CL"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B1F3B">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<title>Ecosistema automotriz | Repuestos, talleres y flotas | NURVO</title>
+<meta name="description" content="Explora repuestos originales, equivalentes y remanufacturados; solicita cotizaciones orientativas, busca talleres y comprende garantías y permisos en Chile.">
+<link rel="stylesheet" href="assets/ecosistema.css"><script src="assets/ecosistema.js" defer></script>
+</head><body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="top"><nav class="container nav" aria-label="Principal">
+<a class="brand" href="index.html" aria-label="NURVO inicio">N<span>U</span>RVO <small>Tu auto, bajo control</small></a>
+<div class="nav-links"><a href="index.html">Inicio</a><a href="vin.html">VIN</a><a href="#repuestos">Repuestos</a><a href="#talleres">Talleres</a><a href="#flotas">Flotas</a><a href="#marco-legal">Normativa</a></div>
+</nav></header>
+<main id="contenido">
+<section class="hero"><div class="container hero-grid">
+<div><p class="overline">NURVO · Ecosistema automotriz Chile</p><h1>Repuestos, mecánica y flotas. <em>Con transparencia.</em></h1>
+<p class="lead">Compara tipos de repuesto, prepara solicitudes para talleres, consulta garantías y encuentra canales oficiales. Sin precios, compatibilidades, acuerdos comerciales ni datos vehiculares inventados.</p>
+<div class="hero-actions"><a class="btn primary" href="#solicitud">Preparar solicitud</a><a class="btn ghost" href="#repuestos">Explorar repuestos</a></div>
+<p class="caption light">La plataforma orienta e intermedia información. No sustituye a un mecánico, al manual del vehículo ni a los certificados oficiales.</p></div>
+<div class="hero-panel"><p class="overline">Una experiencia, múltiples segmentos</p>
+<div class="stat"><span>B2C</span><strong>Conductores y propietarios</strong></div>
+<div class="stat"><span>B2B</span><strong>Talleres, proveedores y flotas</strong></div>
+<div class="stat"><span>B2B2C</span><strong>Canales de distribución y clientes</strong></div>
+<div class="hero-alert">Sin proveedores afiliados ni inventario en vivo confirmados en esta versión.</div>
+</div></div></section>
+<section id="repuestos" class="section container"><div class="section-head"><div><p class="overline">01 · Catálogo responsable</p><h2>Elige la categoría adecuada</h2></div><p>Tipo de pieza no equivale a compatibilidad. Exige código de fabricante/OEM, versión, motor, evidencia de origen y evaluación técnica.</p></div>
+<div class="taxonomy" aria-label="Tipos de repuestos">
+<article class="type-card"><span class="number">01</span><h3>Genuino / original</h3><p>Distribuido bajo marca del fabricante del vehículo; requiere trazabilidad y verificación de autenticidad. No equivale automáticamente a garantía vigente.</p></article>
+<article class="type-card"><span class="number">02</span><h3>OES / proveedor de equipo</h3><p>Fabricante proveedor de primer equipo. Su equivalencia con el repuesto genuino debe demostrarse por referencia técnica y aplicación.</p></article>
+<article class="type-card"><span class="number">03</span><h3>Alternativo / aftermarket</h3><p>Fabricado para reposición por terceros. Deben comprobarse calidad, compatibilidad, normas aplicables y garantía del vendedor.</p></article>
+<article class="type-card"><span class="number">04</span><h3>Remanufacturado / reacondicionado</h3><p>Estado y procesos declarados por el proveedor; vida útil y garantía deben informarse explícitamente. Nunca etiquetar como nuevo.</p></article>
+<article class="type-card"><span class="number">05</span><h3>Usado trazable</h3><p>Exige origen lícito y evaluación de seguridad. No recomendar piezas críticas usadas sin revisión técnica y reglas aplicables.</p></article>
+<article class="type-card"><span class="number">06</span><h3>Accesorios</h3><p>Confort, carga, multimedia y estética. Modificaciones de luces, frenos, estructura o emisiones requieren revisión normativa previa.</p></article>
+</div>
+<div class="panel filter-panel"><div class="panel-heading"><h3>Explorador de familias</h3><p class="muted">Listado de categorías, no inventario ni stock.</p></div>
+<div class="filter-row"><label>Familia<select id="family-filter"><option value="todos">Todas las familias</option><option value="mecanica">Mecánica</option><option value="seguridad">Seguridad</option><option value="electricidad">Electricidad</option><option value="carroceria">Carrocería y accesorios</option><option value="electromovilidad">Electromovilidad</option></select></label><label>Buscar categoría<input id="part-search" type="search" maxlength="60" placeholder="Frenos, aceite, sensores..."></label></div>
+<div id="part-grid" class="part-grid" aria-live="polite"></div><p id="part-count" class="caption"></p></div>
+</section>
+<section id="solicitud" class="section muted-bg"><div class="container"><p class="overline">02 · Cotizaciones y compatibilidad</p><h2>Preparar una solicitud verificable</h2><p class="intro">Esta herramienta construye un borrador para conversar con un taller o proveedor. No envía datos ni confirma stock; tú decides si lo copias o descargas.</p>
+<div class="two-col"><form id="request-form" class="panel" novalidate>
+<h3>Vehículo y necesidad</h3><div class="filter-row">
+<label>Marca<select name="brand" required><option value="">Elige marca</option><option>Chevrolet</option><option>Suzuki</option><option>Kia</option><option>Hyundai</option><option>Toyota</option><option>Ford</option><option>Nissan</option><option>Volkswagen</option><option>Mazda</option><option>Chery</option><option>MG</option><option>Peugeot</option><option>Renault</option><option>Mitsubishi</option><option>Otra</option></select></label>
+<label>Modelo<input name="model" maxlength="60" required placeholder="Ej.: Baleno"></label></div>
+<div class="filter-row"><label>Año (opcional)<input name="year" type="number" min="1886" max="2100" placeholder="Ej.: 2020"></label><label>Motor / versión (opcional)<input name="engine" maxlength="60" placeholder="Ej.: 1.6 MT"></label></div>
+<label>Familia / solicitud<select name="work" required><option value="">Selecciona</option><option>Frenos / ABS</option><option>Dirección / suspensión</option><option>Motor / transmisión</option><option>Aceite / filtros</option><option>Neumáticos / ruedas</option><option>Eléctrico / diagnóstico</option><option>Alta tensión EV / híbrido</option><option>Carrocería / pintura</option><option>Accesorios / multimedia</option><option>Modificación técnica</option><option>Mantención preventiva</option></select></label>
+<div class="filter-row"><label>Tipo de repuesto<select name="part" required><option value="">Selecciona</option><option>Genuino OEM</option><option>OES / equipo original</option><option>Alternativo aftermarket</option><option>Remanufacturado</option><option>Usado trazable</option><option>Por definir con taller</option></select></label>
+<label>Origen de la pieza<select name="supplied" required><option value="proveedor">Cotizada por proveedor/taller</option><option value="cliente">La aporta el cliente</option></select></label></div>
+<div class="filter-row"><label>Garantía comercial del vehículo<select name="warranty"><option value="desconocida">Por confirmar con póliza</option><option value="vigente">Dice estar vigente</option><option value="vencida">Vencida / no aplica</option></select></label>
+<label>Tipo de tenencia<select name="tenure"><option value="propio">Vehículo propio / autorizado</option><option value="arriendo">Arrendado / carsharing (incluido Awto)</option><option value="empresa">Flota privada / leasing</option><option value="publico">Vehículo institucional o público</option></select></label></div>
+<label class="check"><input id="authorization" type="checkbox"> Confirmo que estoy habilitado para solicitar un presupuesto; esto NO reemplaza autorización del propietario para reparar o modificar.</label>
+<button class="btn primary" type="submit">Generar borrador y alertas</button><p class="caption">No ingreses RUT, domicilio, teléfono, patente ni datos sensibles. No se almacenan estos campos.</p>
+</form>
+<aside class="panel output" aria-label="Resultado de solicitud"><h3>Resultado para revisar</h3><p id="request-status" class="notice" role="status" aria-live="polite">Completa el formulario para obtener advertencias relevantes y un texto de solicitud.</p>
+<div id="request-checks" class="checks"></div><pre id="request-preview" tabindex="0">Todavía no se ha preparado una solicitud.</pre>
+<div class="actions"><button class="btn dark" type="button" id="copy-request" disabled>Copiar</button><button class="btn soft" type="button" id="download-request" disabled>Descargar .txt</button></div><p class="caption">El proveedor debe confirmar referencia, compatibilidad, precio, IVA, mano de obra, plazo y coberturas por escrito antes de contratar.</p></aside></div>
+</div></section>
+<section id="talleres" class="section container"><div class="section-head"><div><p class="overline">03 · Talleres, sin restricciones ficticias</p><h2>Busca un taller según tu necesidad</h2></div><p>No hay talleres adheridos verificados en NURVO. La búsqueda abre resultados externos y nunca implica que el taller acepte cualquier pieza.</p></div>
+<div class="two-col"><form id="workshop-form" class="panel"><h3>Explorar centros mecánicos</h3>
+<label>Comuna o ciudad<input id="workshop-location" required maxlength="80" placeholder="Ej.: Santiago, Maipú"></label>
+<label>Especialidad<select id="workshop-specialty"><option value="taller mecánico">Mecánica general</option><option value="servicio técnico autorizado">Servicio autorizado</option><option value="frenos automotrices">Frenos</option><option value="electricidad automotriz">Electricidad</option><option value="vehículos eléctricos híbridos">EV / híbridos</option><option value="neumáticos">Neumáticos</option><option value="carrocería y pintura">Carrocería</option><option value="mantención de flotas">Flotas</option></select></label>
+<label>Política sobre repuestos<select id="workshop-policy"><option value="cualquiera">Por confirmar con taller</option><option value="original">Requiero original / genuino</option><option value="alternativo">Consultar alternativos</option><option value="cliente">Consultar instalación de pieza aportada por cliente</option></select></label>
+<button class="btn primary" type="submit">Preparar búsqueda</button>
+<p id="workshop-status" class="caption" role="status"></p><a id="workshop-link" class="btn dark" target="_blank" rel="noopener noreferrer" hidden>Ver talleres en Google Maps</a>
+</form><div class="panel"><h3>Antes de confiar tu vehículo</h3><ul class="clean-list"><li>Solicita presupuesto y orden de trabajo por escrito, incluyendo IVA y tiempos.</li><li>Pregunta si acepta piezas genuinas, OES, alternativas o aportadas por ti, y en qué condiciones técnicas.</li><li>Solicita diagnóstico, códigos, procedencia y garantía del servicio y de los repuestos.</li><li>Exige taller competente para frenos, airbags, sistemas ADAS, alta tensión y modificaciones reguladas.</li><li>Verifica póliza del fabricante, contrato de arriendo, leasing o flota antes de intervenir.</li></ul>
+<p class="caption">La responsabilidad por una instalación negligente no se elimina porque el usuario aportó la pieza.</p></div></div></section>
+<section id="flotas" class="section muted-bg"><div class="container"><p class="overline">04 · Servicios de flota y alianzas</p><h2>Un marketplace para particulares, empresas e instituciones</h2>
+<div class="business-grid">
+<article class="panel"><h3>B2C</h3><p>Repuestos, mantención, accesorios, comparación de presupuestos, historial y garantías.</p><strong>Flujo propuesto</strong><p>Solicitud → validación de pieza/taller → cotización con condiciones → contratación externa.</p></article>
+<article class="panel"><h3>B2B</h3><p>Abastecimiento a talleres, mantención de flotas de reparto, arriendo, leasing y transportes.</p><strong>Flujo propuesto</strong><p>Onboarding comercial → evaluación técnica → catálogo / contrato → indicadores y trazabilidad.</p></article>
+<article class="panel"><h3>B2B2C</h3><p>Distribuidores, talleres y aseguradoras que atienden al usuario final con consentimiento y roles claros.</p><strong>Flujo propuesto</strong><p>Derivación autorizada → cotización → aceptación → servicio y postventa.</p></article>
+<article class="panel"><h3>Carsharing y arriendo</h3><p>Vehículos arrendados mediante plataformas como Awto o rent-a-car: cualquier intervención debe ser autorizada según contrato por el operador o dueño.</p><strong>Estado</strong><p>Sin convenio con Awto ni plataformas de arriendo.</p></article>
+<article class="panel"><h3>Hospitales y servicios públicos</h3><p>Mantención de ambulancias, móviles institucionales y flotas de organismos como Carabineros solo mediante mecanismos de contratación y autorizaciones aplicables.</p><strong>Estado</strong><p>Sin contrato, autorización ni adjudicación pública.</p></article>
+<article class="panel"><h3>Proveedores e importadores</h3><p>OEM, distribuidores, fabricantes de alternativas, recicladores, reacondicionadores y talleres especializados, sujetos a documentación y auditoría.</p><strong>Estado</strong><p>Programa de alianzas prospectivo; ningún convenio firmado declarado.</p></article>
+</div>
+<p class="source-callout">Compras públicas: consulta los requisitos y procesos de <a href="https://www.chilecompra.cl/como-vender-al-estado/" target="_blank" rel="noopener noreferrer">ChileCompra</a> y <a href="https://www.mercadopublico.cl/" target="_blank" rel="noopener noreferrer">Mercado Público</a>. No se pueden reemplazar licitaciones o contratos por simples derivaciones.</p>
+</div></section>
+<section id="marco-legal" class="section container"><p class="overline">05 · Derechos, seguridad y trazabilidad</p><h2>Regulación antes de la intervención</h2><div class="legal-grid">
+<article class="panel"><h3>Garantía de productos</h3><p>Productos nuevos defectuosos: en general, 6 meses de garantía legal con opciones establecidas por la ley. La voluntaria del fabricante no puede reemplazarla ni anularla.</p><a href="https://www.sernac.cl/portal/604/w3-article-88030.html" target="_blank" rel="noopener noreferrer">Criterio SERNAC 2026</a></article>
+<article class="panel"><h3>Servicios de reparación</h3><p>El taller informa presupuesto, partes nuevas/usadas/alternativas, plazos y garantía del trabajo. No puede excluir responsabilidad por negligencia o incumplimiento con una cláusula general.</p><a href="https://www.sernac.cl/604/w3-article-2759.html" target="_blank" rel="noopener noreferrer">Derechos frente a talleres</a></article>
+<article class="panel"><h3>Modificaciones vehiculares</h3><p>Los cambios de motor, color o tipo pueden requerir certificados, inspección, registro y otras autorizaciones. Nunca alterar identificadores ni asumir homologación automática.</p><a href="https://www.chileatiende.gob.cl/fichas/3418-inscripcion-de-alteraciones-de-las-caracteristicas-de-vehiculos-motorizado" target="_blank" rel="noopener noreferrer">Trámite Registro Civil</a></article>
+<article class="panel"><h3>Privacidad desde el diseño</h3><p>La Ley 21.719 entra en vigor el 1 de diciembre de 2026. Se priorizan minimización, finalidad, seguridad, derechos de titulares y contratos con proveedores.</p><a href="https://www.bcn.cl/leychile/Navegar?idNorma=1209272" target="_blank" rel="noopener noreferrer">Ley 21.719</a></article>
+<article class="panel"><h3>Recalls y campañas</h3><p>No se infieren fallas por marca o volumen de ventas. Consulta campañas de seguridad aplicables a marca, modelo, año y VIN.</p><a href="https://www.sernac.cl/portal/619/w3-propertyvalue-66190.html" target="_blank" rel="noopener noreferrer">SERNAC: seguridad de productos</a></article>
+<article class="panel"><h3>Importación y tratados</h3><p>Los TLC y reglas de origen afectan aranceles, no crean convenios privados con Ford, Nissan, Hyundai, Volkswagen u otras marcas.</p><a href="https://www.subrei.gob.cl/acuerdos-comerciales/acuerdos-comerciales-vigentes" target="_blank" rel="noopener noreferrer">SUBREI: acuerdos vigentes</a></article>
+</div>
+<div class="panel legal-bottom"><p><strong>Documentación transparente:</strong> <a href="terminos.html">Términos y condiciones (borrador)</a>, <a href="privacidad.html">Política de privacidad (borrador)</a>, <a href="vin.html">Consulta VIN</a> y <a href="index.html#proveedores">Directorio de repuestos</a>.</p>
+<p class="caption">Estos textos requieren revisión jurídica y completar identificación/medios de contacto del operador antes de activar pagos, contratos o tratamiento remoto de datos. No constituyen certificación de cumplimiento.</p></div>
+</section>
+</main><footer><div class="container footer"><strong>NURVO · Tu auto, bajo control.</strong><span>Información informativa, fuentes vinculadas y datos no verificados cuando corresponde.</span><div><a href="terminos.html">Términos</a> · <a href="privacidad.html">Privacidad</a> · <a href="index.html">Inicio</a></div></div></footer>
+</body></html>
