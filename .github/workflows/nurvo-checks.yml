@@ -30,6 +30,7 @@ jobs:
         run: |
           node tests/smoke.mjs
           node tests/vin.mjs
+          node tests/ecosistema.mjs
   browser:
     name: Real Chromium UI test
     runs-on: ubuntu-24.04
