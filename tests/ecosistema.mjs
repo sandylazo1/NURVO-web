@@ -32,6 +32,10 @@ assert.match(js,/arriendo|carsharing/i,'Debe pedir autorización para arrendados
 assert.match(js,/publico/,'Debe contemplar flotas públicas');
 assert.match(terms,/no.*exonera|ninguna cláusula exonera/i,'No renunciar a deberes de taller');
 assert.match(terms,/garantía legal/i);
+for (const official of ['www.ford.cl/posventa/garantia','www.nissan.cl/servicios/mantenimiento-preventivo','www.hyundai.cl/repuestos','www.volkswagen.cl/informacion-legal-y-garantias','repuestos.derco.cl/faq']) {
+  assert.ok(html.includes(official),'Fuente oficial de postventa faltante: '+official);
+}
+
 assert.match(privacy,/1 de diciembre de 2026/i,'Fecha entrada Ley 21.719');
 assert.match(privacy,/responsable/i);
 assert.ok(main.includes('href="ecosistema.html"'),'Enlace desde portada a ecosistema');
