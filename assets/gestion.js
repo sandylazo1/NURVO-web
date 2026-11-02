@@ -51,7 +51,7 @@
     if(current===null||last===null||interval===null||current<last||
       ($('service-usage').value.trim()&&usage===null)||
       ($('service-months').value.trim()&&months===null)||
-      (dateRaw&&(!lastDate||lastDate.getTime()>Date.now()+86400000))) {
+      (dateRaw&&(!lastDate||lastDate.getTime()>Date.UTC(today().getFullYear(),today().getMonth(),today().getDate(),12)))) {
       box.className='status-note';
       box.textContent='Revisa los kilometrajes, intervalos y fecha. El último servicio no puede superar el kilometraje actual y la fecha no puede ser futura.';
       return;
