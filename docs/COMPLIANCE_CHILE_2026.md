@@ -75,3 +75,14 @@ Antes de iniciar intervención, proveedor/taller debe determinar:
 - [ ] Mecanismo de incidentes, protección de accesos y retención.
 - [ ] QA frontend/backend/Chromium, seguridad y accesibilidad; revisión por asesor mecánico.
 - [ ] Procedimiento de recall y notificación de riesgos, sin tasas de fallas inferidas.
+
+## 7. Fuentes comerciales de garantía por marca (NO dictamen)
+Se consultaron enlaces públicos de políticas por marca. No confundir pólizas privadas con garantía legal, ni interpretar una estipulación de exclusividad de talleres como una privación automática de derechos. Contrastar cada caso con SERNAC circular 27-01-2026, condiciones justificadas, situación técnica, contrato y modelo/VIN.
+
+- **Ford Chile:** [garantías por modelo](https://www.ford.cl/posventa/garantia/). No trasladar automáticamente cobertura de un modelo/año a otro.
+- **Volkswagen Chile:** [información legal y garantías](https://www.volkswagen.cl/informacion-legal-y-garantias_). Las cláusulas comerciales sobre mantención, taller autorizado y piezas deben evaluarse junto con la Ley 19.496 y la interpretación SERNAC.
+- **Nissan Chile:** [programas de mantenimiento](https://www.nissan.cl/servicios/mantenimiento-preventivo.html) y [recalls](https://www.nissan.cl/servicios/campanas.html). Las pautas dependen de uso/versión y los recalls pueden ser independientes de la garantía comercial.
+- **Hyundai Chile:** [repuestos y postventa](https://www.hyundai.cl/repuestos/). La existencia de cotizador oficial no equivale a API conectada a NURVO.
+- **Derco Repuestos:** [FAQ](https://repuestos.derco.cl/faq?tipo=repuestos). Si aparece un plazo comercial más corto, no afirmar que desplaza la garantía legal de seis meses de productos nuevos defectuosos.
+- **Otros fabricantes:** Toyota, Chevrolet, Suzuki, Kia, Chery, MG, Mazda, Renault, etc.; sin documentación por vehículo validada ni convenios NURVO. Solicitar condiciones y póliza actualizadas antes de cotizar.
+
