@@ -190,6 +190,87 @@ try {
   assert.match(await hub.locator('main').textContent(), /1 de diciembre de 2026/);
   await hub.close();
 
+  // Expansion: maintenance is based on user-supplied manual intervals, never guessed.
+  assert.equal(await page.locator('#nav a[href="gestion.html"]').count(), 1);
+  assert.equal(await page.locator('#nav a[href="alianzas.html"]').count(), 1);
+  assert.equal(await page.locator('#nav a[href="equipo.html"]').count(), 1);
+  const toolsPage = await context.newPage();
+  toolsPage.on('pageerror', error => errors.push('Gestion: ' + error.message));
+  await toolsPage.goto(new URL('gestion.html', ROOT).href, {waitUntil: 'domcontentloaded'});
+  await toolsPage.locator('#service-current').fill('85000');
+  await toolsPage.locator('#service-last').fill('80000');
+  await toolsPage.locator('#service-interval').fill('10000');
+  await toolsPage.locator('#service-form button[type="submit"]').click();
+  assert.match(await toolsPage.locator('#service-metrics').textContent(), /90.000/);
+  assert.match(await toolsPage.locator('#service-metrics').textContent(), /5.000/);
+  assert.match(await toolsPage.locator('#service-result').textContent(), /aún no se alcanza/i);
+  await toolsPage.locator('#service-current').fill('91000');
+  await toolsPage.locator('#service-form button[type="submit"]').click();
+  assert.match(await toolsPage.locator('#service-result').textContent(), /hito declarado ya se alcanzó/i);
+  // Comparing declared prices is not a statement that offers are real or safe.
+  await toolsPage.locator('#offer-a-name').fill('Taller A');
+  await toolsPage.locator('#offer-a-total').fill('15000');
+  await toolsPage.locator('#offer-b-name').fill('Taller B');
+  await toolsPage.locator('#offer-b-total').fill('22000');
+  await toolsPage.locator('#offer-verified').check();
+  await toolsPage.locator('#compare-form button[type="submit"]').click();
+  assert.match(await toolsPage.locator('#compare-result').textContent(), /7.000/);
+  // Fleet data remains local, pseudonymous, exportable and erasable.
+  await toolsPage.locator('#fleet-alias').fill('Unidad Demo');
+  await toolsPage.locator('#fleet-type').selectOption('arriendo');
+  await toolsPage.locator('#fleet-service').selectOption('Frenos');
+  await toolsPage.locator('#fleet-km').fill('95000');
+  await toolsPage.locator('#fleet-due').fill('90000');
+  await toolsPage.locator('#fleet-permission').check();
+  await toolsPage.locator('#fleet-form button[type="submit"]').click();
+  assert.match(await toolsPage.locator('#fleet-rows').textContent(), /Unidad Demo/);
+  assert.match(await toolsPage.locator('#fleet-rows').textContent(), /Hito alcanzado/);
+  const downloadFleet = toolsPage.waitForEvent('download');
+  await toolsPage.locator('#fleet-export').click();
+  const savedFleet = await downloadFleet;
+  assert.equal(savedFleet.suggestedFilename(), 'nurvo-flota-local.csv');
+  await toolsPage.reload({waitUntil: 'domcontentloaded'});
+  assert.match(await toolsPage.locator('#fleet-rows').textContent(), /Unidad Demo/);
+  await toolsPage.locator('#fleet-clear').click();
+  assert.match(await toolsPage.locator('#fleet-rows').textContent(), /Sin unidades|No hay unidades/);
+  await toolsPage.screenshot({path:'test-artifacts/nurvo-gestion-desktop.png',fullPage:true,animations:'disabled'});
+  for (const width of [320,390,768]) {
+    await toolsPage.setViewportSize({width,height:844});
+    assert.equal(await toolsPage.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),true,'Gestión móvil sin overflow a '+width+'px');
+  }
+  await toolsPage.screenshot({path:'test-artifacts/nurvo-gestion-mobile.png',fullPage:true,animations:'disabled'});
+  await toolsPage.close();
+  // Partnership form is a local proposal, not an online lead collection.
+  const partnersPage = await context.newPage();
+  partnersPage.on('pageerror',error=>errors.push('Alianzas: '+error.message));
+  await partnersPage.goto(new URL('alianzas.html',ROOT).href,{waitUntil:'domcontentloaded'});
+  await partnersPage.locator('#partner-type').selectOption('taller');
+  await partnersPage.locator('#partner-org').fill('Taller Demostrativo');
+  await partnersPage.locator('#partner-region').fill('Santiago');
+  await partnersPage.locator('#partner-authorized').check();
+  await partnersPage.locator('#partner-form button[type="submit"]').click();
+  assert.match(await partnersPage.locator('#partner-preview').textContent(),/Taller Demostrativo/);
+  assert.match(await partnersPage.locator('#partner-preview').textContent(),/NO CONSTITUYE CONVENIO/i);
+  assert.equal(await partnersPage.locator('#partner-copy').isDisabled(),false);
+  await partnersPage.locator('#partner-type').selectOption('publico');
+  assert.equal(await partnersPage.locator('#partner-copy').isDisabled(),true);
+  await partnersPage.locator('#partner-form button[type="submit"]').click();
+  assert.match(await partnersPage.locator('#partner-requirements').textContent(),/ChileCompra/i);
+  await partnersPage.screenshot({path:'test-artifacts/nurvo-alianzas.png',fullPage:true,animations:'disabled'});
+  await partnersPage.close();
+  const foundersPage = await context.newPage();
+  foundersPage.on('pageerror',error=>errors.push('Equipo: '+error.message));
+  await foundersPage.goto(new URL('equipo.html',ROOT).href,{waitUntil:'domcontentloaded'});
+  for (const person of ['Rafael Vester','Tomás Venegas','Sandy Lazo']) {
+    assert.match(await foundersPage.locator('main').textContent(),new RegExp(person));
+  }
+  for(const width of [320,390,768]){
+    await foundersPage.setViewportSize({width,height:844});
+    assert.equal(await foundersPage.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),true,'Equipo móvil sin overflow a '+width+'px');
+  }
+  await foundersPage.screenshot({path:'test-artifacts/nurvo-equipo-mobile.png',fullPage:true,animations:'disabled'});
+  await foundersPage.close();
+
   assert.deepEqual(errors, [], 'Errores de JavaScript en navegador');
   console.log('NURVO browser checks passed: desktop, mobile, logos, search, images, quote list, compare, diagnostic, carousels.');
   if (warnings.length) console.log('Browser warnings (nonfatal): ' + warnings.slice(0, 6).join(' | '));
