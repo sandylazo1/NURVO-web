@@ -2,7 +2,7 @@
 
 Sitio público: https://sandylazo1.github.io/NURVO-web/
 
-## Qué funciona
+## VIN, precios y talleres (rama de revisión)\n- Herramienta estática en `vin.html`: decodificación pública NHTSA vPIC de VIN estandarizados, sin pedir año obligatorio. Cobertura principal 1981 en adelante; chasis antiguos permiten registro manual **sin inventar identificación**.\n- En GitHub Pages, la consulta pública NHTSA se intenta desde el navegador; si CORS, conectividad o límites del servicio lo impiden, se muestra error y enlace a la fuente oficial, no un resultado ficticio. El backend FastAPI existente requiere alojamiento independiente.\n- Cotizaciones/precios ingresados y fechados por el usuario, guardados solo en navegador y **no verificados por NURVO**. No hay feed de precios/stock en vivo ni red comercial afirmada.\n- Lista orientativa de mantenimiento y búsqueda externa de talleres por ciudad/comuna (sin afirmar acuerdos o disponibilidad).\n- Registro Civil y Auto Seguro/Carabineros: solo enlaces a trámites oficiales. No hay conexión a registros protegidos ni consulta automatizada con credenciales. Se requiere convenio, permiso técnico y backend separado.\n- Pruebas: `node tests/vin.mjs`; las existentes siguen ejecutándose.\n\n## Qué funciona
 - Catálogo editorial de 8 familias de repuestos, fotografías referenciales con alternativa interactiva al pasar el cursor y botón táctil.
 - Búsqueda por texto, filtros por familia y orden alfabético.
 - Lista persistente en el navegador, edición de cantidades, solicitud descargable y copiable, más enlaces a proveedores reales.
