@@ -277,7 +277,7 @@ try {
   const supplierCatalog = await context.newPage();
   supplierCatalog.on('pageerror',error=>errors.push('Catálogo: '+error.message));
   await supplierCatalog.goto(new URL('catalogo.html',ROOT).href,{waitUntil:'domcontentloaded'});
-  await supplierCatalog.locator('#catalog-status').getByText('Sin backend comercial configurado').waitFor();
+  await supplierCatalog.waitForFunction(() => document.getElementById('catalog-status')?.textContent.includes('Sin backend comercial configurado'));
   assert.match(await supplierCatalog.locator('#catalog-products').textContent(),/Sin API conectada|Catálogo sin API/);
   assert.equal(await supplierCatalog.locator('.catalog-card').count(),0);
   // The API is intercepted ONLY for the browser test; no real supplier or price is claimed.
