@@ -1,7 +1,7 @@
 # NURVO — PROMPT MAESTRO DE CONTINUIDAD Y VALIDACIÓN DEL PRODUCTO
 
-**Versión:** 2 de noviembre de 2026  
-**Repositorio:** https://github.com/sandylazo1/NURVO-web  
+**Versión:** 2 de noviembre de 2026
+**Repositorio:** https://github.com/sandylazo1/NURVO-web
 **Regla:** antes de implementar, lee `README.md`, `QA_REPORT.md`, `docs/VIN_GUIDE_CHILE.md`, `docs/MARKETPLACE_API_CONTRACT.md`, `docs/COMPLIANCE_CHILE_2026.md` y `docs/TEAM_GOVERNANCE_NURVO.md`.
 
 ## Rol del agente ejecutor
