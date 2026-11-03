@@ -61,8 +61,8 @@
         ['VDS · descripción', code.slice(3,9)],
         ['VIS · identificador', code.slice(9,17)],
       ].forEach(([label,value]) => {
-        const group = $('div');
-        group.append($('code',value),$('span',label));
+        const group = $$('div');
+        group.append($$('code',value),$$('span',label));
         preview.append(group);
       });
     } else {
