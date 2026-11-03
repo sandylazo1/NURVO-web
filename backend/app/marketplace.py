@@ -24,6 +24,7 @@ from pydantic import BaseModel, Field, field_validator
 ROLES = frozenset({"admin", "supplier", "buyer", "workshop", "fleet"})
 BUYER_ROLES = frozenset({"buyer", "workshop", "fleet"})
 CONDITIONS = frozenset({"genuino", "oes", "alternativo", "remanufacturado", "usado"})
+CATEGORIES = frozenset({"frenos", "filtros", "motor", "transmision", "suspension", "electricidad", "neumaticos", "carroceria", "accesorios", "seguridad", "electromovilidad", "otros"})
 SLUG = re.compile(r"^[a-z0-9][a-z0-9_-]{2,39}$")
 SKU = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.:/-]{1,63}$")
 MAX_STALE_DAYS = 30
@@ -84,6 +85,7 @@ class ProductInput(BaseModel):
     sku: str = Field(min_length=2, max_length=64)
     title: str = Field(min_length=3, max_length=130)
     condition: str
+    category: str = "otros"
     oem_reference: str | None = Field(default=None, max_length=70)
     brand: str | None = Field(default=None, max_length=70)
     fitment_note: str | None = Field(default=None, max_length=200)
@@ -104,6 +106,13 @@ class ProductInput(BaseModel):
     def valid_condition(cls, value: str) -> str:
         if value not in CONDITIONS:
             raise ValueError("Condición no reconocida")
+        return value
+
+    @field_validator("category")
+    @classmethod
+    def valid_category(cls, value: str) -> str:
+        if value not in CATEGORIES:
+            raise ValueError("Categoría no reconocida")
         return value
 
     @field_validator("source_url")
@@ -156,6 +165,7 @@ async def initialize_marketplace(path: Path):
             sku TEXT NOT NULL,
             title TEXT NOT NULL,
             condition TEXT NOT NULL,
+            category TEXT NOT NULL DEFAULT 'otros',
             oem_reference TEXT,
             brand TEXT,
             fitment_note TEXT,
@@ -209,7 +219,7 @@ async def audit(db, tenant: str, role: str, action: str, object_id: str):
 def build_marketplace_router(path: Path, enabled: bool, raw_keys: str) -> APIRouter:
     keys = load_keys(raw_keys) if enabled else {}
     router = APIRouter(prefix="/api/marketplace", tags=["Market B2B"])
-    products_cols = ("id", "tenant_id", "sku", "title", "condition", "oem_reference",
+    products_cols = ("id", "tenant_id", "sku", "title", "condition", "category", "oem_reference",
                      "brand", "fitment_note", "price_clp", "stock_qty", "source_url",
                      "warranty_summary", "review_state", "reviewed_at", "updated_at")
 
@@ -252,18 +262,18 @@ def build_marketplace_router(path: Path, enabled: bool, raw_keys: str) -> APIRou
         async with connect(path) as db:
             await db.execute("""
             INSERT INTO marketplace_products
-              (id,tenant_id,sku,title,condition,oem_reference,brand,fitment_note,
+              (id,tenant_id,sku,title,condition,category,oem_reference,brand,fitment_note,
                price_clp,stock_qty,source_url,warranty_summary,review_state,updated_at)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'pending',?)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,'pending',?)
             ON CONFLICT(tenant_id,sku) DO UPDATE SET
-              title=excluded.title,condition=excluded.condition,
+              title=excluded.title,condition=excluded.condition,category=excluded.category,
               oem_reference=excluded.oem_reference,brand=excluded.brand,
               fitment_note=excluded.fitment_note,price_clp=excluded.price_clp,
               stock_qty=excluded.stock_qty,source_url=excluded.source_url,
               warranty_summary=excluded.warranty_summary,
               review_state='pending',reviewed_at=NULL,reviewed_reference=NULL,
               updated_at=excluded.updated_at
-            """, (str(uuid4()),tenant,payload.sku,payload.title,payload.condition,
+            """, (str(uuid4()),tenant,payload.sku,payload.title,payload.condition,payload.category,
                   payload.oem_reference,payload.brand,payload.fitment_note,
                   payload.price_clp,payload.stock_qty,payload.source_url,
                   payload.warranty_summary,now))
@@ -279,18 +289,24 @@ def build_marketplace_router(path: Path, enabled: bool, raw_keys: str) -> APIRou
     @router.get("/products")
     async def public_products(
         condition: str | None = None,
+        category: str | None = None,
         limit: int = Query(25, ge=1, le=50),
         offset: int = Query(0, ge=0, le=5000)
     ):
         require_enabled()
         if condition is not None and condition not in CONDITIONS:
             raise HTTPException(status_code=422, detail="Condición no reconocida")
+        if category is not None and category not in CATEGORIES:
+            raise HTTPException(status_code=422, detail="Categoría no reconocida")
         floor = (datetime.now(timezone.utc)-timedelta(days=MAX_STALE_DAYS)).isoformat()
         clauses = "review_state='published' AND updated_at>=?"
         args: list = [floor]
         if condition:
             clauses += " AND condition=?"
             args.append(condition)
+        if category:
+            clauses += " AND category=?"
+            args.append(category)
         args.extend([limit,offset])
         async with connect(path) as db:
             async with db.execute(
