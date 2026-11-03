@@ -4,7 +4,7 @@ Estado de desarrollo: 2026-11-02. **Código implementado, NO servicio comercial 
 
 ## 1. Alcance real
 
-- Catálogo multiempresa con SKU, nombre, marca, referencia OEM opcional, condición declarada, referencia de aplicación no verificada, precio CLP, cantidad declarada, fuente HTTPS y resumen de garantía aportados por proveedor.
+- Catálogo multiempresa con SKU, familia (frenos, filtros, motor, transmisión, suspensión, neumáticos, electricidad, carrocería, accesorios, seguridad, electromovilidad y otros), nombre, marca, referencia OEM opcional, condición declarada, referencia de aplicación no verificada, precio CLP, cantidad declarada, fuente HTTPS y resumen de garantía aportados por proveedor.
 - Acceso B2B **servidor a servidor** bajo API key de alta entropía. Solo se almacenan hashes SHA-256 de las claves en variables del servidor; ninguna clave en JavaScript del navegador, en el repositorio ni en páginas públicas.
 - Separación por organización (tenant_id), roles `admin`, `supplier`, `buyer`, `workshop`, `fleet`. El rol `admin` publica fichas tras revisión documental interna, **no certifica origen/compatibilidad/stock**.
 - Cambiar la ficha de un proveedor revierte automáticamente su publicación a `pending`, hasta nueva revisión.
@@ -48,7 +48,7 @@ Estado de desarrollo: 2026-11-02. **Código implementado, NO servicio comercial 
 | Método | Ruta | Acceso | Contrato |
 |---|---|---|---|
 | GET | `/api/marketplace/status` | público | Informa deshabilitado/conectado, límites y ausencia de checkout |
-| GET | `/api/marketplace/products` | público cuando habilitado | Hasta 50 fichas por página, solo publicadas y con actualización no anterior a 30 días, campos con avisos no verificados |
+| GET | `/api/marketplace/products` | público cuando habilitado | Hasta 50 fichas por página, solo publicadas y con actualización no anterior a 30 días, filtros `condition`/`category`, campos con avisos no verificados |
 | POST | `/api/marketplace/products` | supplier | Alta/actualización de SKU propio; siempre queda `pending` |
 | GET | `/api/marketplace/my/products` | supplier | Solo registros de su `tenant_id`, máximo 100 |
 | POST | `/api/marketplace/products/{id}/publish` | admin | Publicación tras documentación interna y referencia de revisión |
