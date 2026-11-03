@@ -1,0 +1,20 @@
+/* Read-only catalogue designed with the established NURVO visual system. */
+.catalog-intro{display:flex;justify-content:space-between;align-items:end;gap:30px}
+.catalog-intro>div{flex:1}
+.catalog-intro>p{max-width:520px;color:#52647b;font-size:14px}
+.catalog-controls{display:grid;grid-template-columns:1fr 1.35fr auto;gap:14px;align-items:end;margin:22px 0}
+.catalog-controls .btn{margin-bottom:13px}
+.catalog-controls label{margin:0 0 13px;font-size:13px}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:21px}
+.catalog-card{padding:24px;border-radius:15px;background:#fff;border:1px solid #d8e2ee;box-shadow:0 12px 38px #091c3608;min-width:0;overflow-wrap:anywhere}
+.catalog-card h3{font-size:20px;font-weight:850;line-height:1.25;color:#0b1f3b;margin:8px 0 13px}
+.catalog-card p{font-size:13px;line-height:1.55;color:#52657c;margin:8px 0}
+.catalog-card .catalog-meta{color:#b3202b;text-transform:uppercase;font-weight:800;font-size:11px;letter-spacing:.06em}
+.catalog-card .catalog-price{color:#0b1f3b;font-size:26px;font-weight:900;letter-spacing:-.04em;margin:8px 0}
+.catalog-card .catalog-stock{font-weight:700;color:#3d5d4d}
+.catalog-card small{display:block;margin:15px 0 10px;font-size:11px;color:#506780}
+.catalog-source{display:inline-flex;padding:9px 0;color:#a01120;font-weight:750;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.catalog-card .catalog-caution{padding-top:10px;border-top:1px solid #e3e9f1;font-size:12px}
+.empty-catalog{grid-column:1/-1;min-height:160px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;background:#f3f7fb;border:1px dashed #afc0d3;border-radius:14px;color:#52677e}
+@media(max-width:1000px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){.catalog-intro{display:block}.catalog-grid{grid-template-columns:1fr}.catalog-controls{grid-template-columns:1fr;gap:0}.catalog-controls .btn{width:100%}.catalog-card{padding:20px}}
