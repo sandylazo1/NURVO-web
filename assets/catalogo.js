@@ -7,6 +7,7 @@
   const status = $('catalog-status');
   const count = $('catalog-count');
   const condition = $('catalog-condition');
+  const category = $('catalog-category');
   const search = $('catalog-search');
   const button = $('catalog-reload');
   const create = (tag, content, className) => {
@@ -49,8 +50,10 @@
     root.replaceChildren();
     const q = search.value.trim().toLocaleLowerCase('es-CL').slice(0,70);
     const requested = condition.value;
+    const requestedCategory = category.value;
     const results = products.filter(p =>
       (!requested || p.condition === requested) &&
+      (!requestedCategory || p.category === requestedCategory) &&
       [p.title,p.sku,p.brand,p.oem_reference].some(x=>String(x||'').toLocaleLowerCase('es-CL').includes(q))
     );
     if (!results.length) {
@@ -62,7 +65,7 @@
     for(const p of results) {
       const card=create('article',null,'catalog-card');
       const heading=create('h3',p.title || 'Ficha de repuesto');
-      const meta=create('p','SKU '+p.sku+' · '+p.condition,'catalog-meta');
+      const meta=create('p','SKU '+p.sku+' · '+p.condition+' · '+(p.category||'otros'),'catalog-meta');
       const cost=create('p',currency(p.price_clp),'catalog-price');
       const stock=create('p','Existencias declaradas: '+p.stock_qty+' · sin reserva','catalog-stock');
       const brand=create('p','Marca declarada: '+(p.brand||'No informada'));
@@ -129,6 +132,7 @@
     }
   }
   condition.addEventListener('change',render);
+  category.addEventListener('change',render);
   search.addEventListener('input',render);
   button.addEventListener('click',refresh);
   refresh();
