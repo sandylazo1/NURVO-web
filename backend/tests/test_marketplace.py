@@ -90,6 +90,10 @@ def test_invalid_key_config_is_fail_closed():
 def test_catalogue_requires_review_and_scopes_suppliers(tmp_path):
     with make_client(tmp_path) as client:
         assert client.get("/api/marketplace/status").json()["enabled"] is True
+        assert client.get("/api/marketplace/metrics", headers=headers("buyer_a")).status_code == 403
+        empty_metrics=client.get("/api/marketplace/metrics",headers=headers("admin")).json()
+        assert empty_metrics["products_pending"] == 0
+        assert empty_metrics["quotes_responded"] == 0
         assert client.get("/api/marketplace/products").json()["results"] == []
         assert client.post("/api/marketplace/products", json=PRODUCT).status_code == 401
         bad = client.post("/api/marketplace/products", json=PRODUCT,
@@ -167,6 +171,10 @@ def test_price_quote_exchange_without_payment_or_tenant_leakage(tmp_path):
                                json=payload,headers=headers("supplier_a"))
         assert accepted.status_code == 200
         assert accepted.json()["status"] == "quoted"
+        metrics=client.get("/api/marketplace/metrics",headers=headers("admin")).json()
+        assert metrics["quotes_responded"] == 1
+        assert metrics["products_published"] == 1
+        assert metrics["not_sales_or_paid_orders"] is True
         assert client.post(f"/api/marketplace/quotes/{quote_id}/respond",
                            json=payload,headers=headers("supplier_a")).status_code == 404
 
