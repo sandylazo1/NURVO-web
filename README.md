@@ -26,6 +26,13 @@ Sitio público: https://sandylazo1.github.io/NURVO-web/
 - Pruebas `node tests/expansion.mjs` y Playwright con cálculo y flujo local verificados en CI.
 - No reemplaza el backend FastAPI ni constituye conexión oficial a Registro Civil, Carabineros, talleres, fabricantes o catálogos privados.
 
+## Catálogo comercial B2B (2026-11-02)
+- [Catálogo con procedencia](catalogo.html): consulta pública **solo si existe backend comercial, proveedores autorizados y fichas revisadas**. GitHub Pages mantiene un estado vacío honesto cuando no hay API o contratos.
+- FastAPI `backend/app/marketplace.py`: catálogo SKU/referencia OEM/familia (incluidos accesorios)/condición/precio/stock declarados, revisión antes de publicar, roles de empresa, solicitudes de cotización B2B sin pago y métricas agregadas administrativas. **Deshabilitado por defecto**, no desplegado en Pages.
+- Seguridad: credenciales privadas exclusivamente para clientes B2B servidor-servidor, hashes SHA-256 y tokens aleatorios de alta entropía, tenant isolation, auditoría sin PII, validación de enlaces, consulta paginada y pruebas de autorización.
+- El producto mostrado **no certifica originalidad, compatibilidad ni stock**. No hay convenios de fabricantes, pagos, cuentas de usuario, reservas ni ventas verificadas.
+- Detalles, endpoints, requisitos y despliegue seguro: [Contrato API marketplace](docs/MARKETPLACE_API_CONTRACT.md).
+
 ## Qué funciona
 - Catálogo editorial de 8 familias de repuestos, fotografías referenciales con alternativa interactiva al pasar el cursor y botón táctil.
 - Búsqueda por texto, filtros por familia y orden alfabético.

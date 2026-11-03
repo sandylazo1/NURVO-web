@@ -32,6 +32,7 @@ jobs:
           node tests/vin.mjs
           node tests/ecosistema.mjs
           node tests/expansion.mjs
+          node tests/catalogo.mjs
   browser:
     name: Real Chromium UI test
     runs-on: ubuntu-24.04

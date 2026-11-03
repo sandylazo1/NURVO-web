@@ -271,6 +271,61 @@ try {
   await foundersPage.screenshot({path:'test-artifacts/nurvo-equipo-mobile.png',fullPage:true,animations:'disabled'});
   await foundersPage.close();
 
+
+  // Supplier catalogue must not fabricate offers if no backend is configured.
+  assert.equal(await page.locator('#nav a[href="catalogo.html"]').count(),1);
+  const supplierCatalog = await context.newPage();
+  supplierCatalog.on('pageerror',error=>errors.push('Catálogo: '+error.message));
+  await supplierCatalog.goto(new URL('catalogo.html',ROOT).href,{waitUntil:'domcontentloaded'});
+  await supplierCatalog.waitForFunction(() => document.getElementById('catalog-status')?.textContent.includes('Sin backend comercial configurado'));
+  assert.match(await supplierCatalog.locator('#catalog-products').textContent(),/Sin API conectada|Catálogo sin API/);
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),0);
+  // The API is intercepted ONLY for the browser test; no real supplier or price is claimed.
+  await supplierCatalog.route('**/config.js',route=>route.fulfill({
+    status:200,contentType:'application/javascript',
+    body:"window.NURVO_API_BASE_URL = 'https://api.nurvo.example';"
+  }));
+  await supplierCatalog.route('https://api.nurvo.example/api/marketplace/status',route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({enabled:true,checkout:'no_disponible'})
+  }));
+  await supplierCatalog.route('https://api.nurvo.example/api/marketplace/products?limit=50',route=>route.fulfill({
+    status:200,contentType:'application/json',
+    body:JSON.stringify({results:[{
+      id:'00000000-0000-4000-8000-000000000001',
+      tenant_id:'supplier-test',
+      sku:'TEST-BRAKE-007',
+      title:'<img src=x onerror=alert(1)> Pastillas de ensayo',
+      condition:'alternativo',category:'frenos',oem_reference:'REF-TEST-123',brand:'Marca ficticia',
+      fitment_note:'No certificado',
+      price_clp:45990,stock_qty:4,
+      source_url:'https://repuestos.example.cl/prueba',
+      warranty_summary:'Garantía por definir en pruebas',
+      review_state:'published',updated_at:'2026-11-02T00:00:00+00:00'
+    }]})
+  }));
+  await supplierCatalog.reload({waitUntil:'domcontentloaded'});
+  await supplierCatalog.locator('.catalog-card').first().waitFor();
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),1);
+  assert.match(await supplierCatalog.locator('.catalog-price').textContent(),/45.990/);
+  assert.equal(await supplierCatalog.locator('.catalog-card img').count(),0,'No ejecutar HTML malicioso de proveedor');
+  assert.match(await supplierCatalog.locator('.catalog-card h3').textContent(),/<img src=x onerror=alert\(1\)>/);
+  await supplierCatalog.locator('#catalog-condition').selectOption('genuino');
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),0);
+  await supplierCatalog.locator('#catalog-condition').selectOption('alternativo');
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),1);
+  await supplierCatalog.locator('#catalog-category').selectOption('accesorios');
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),0);
+  await supplierCatalog.locator('#catalog-category').selectOption('frenos');
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),1);
+  for(const width of [320,390,768]){
+    await supplierCatalog.setViewportSize({width,height:844});
+    assert.equal(await supplierCatalog.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth),
+      true,'Catálogo móvil sin overflow a '+width);
+  }
+  await supplierCatalog.screenshot({path:'test-artifacts/nurvo-catalogo-mobile.png',fullPage:true,animations:'disabled'});
+  await supplierCatalog.close();
+
   assert.deepEqual(errors, [], 'Errores de JavaScript en navegador');
   console.log('NURVO browser checks passed: desktop, mobile, logos, search, images, quote list, compare, diagnostic, carousels.');
   if (warnings.length) console.log('Browser warnings (nonfatal): ' + warnings.slice(0, 6).join(' | '));

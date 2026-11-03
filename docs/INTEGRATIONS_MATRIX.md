@@ -11,7 +11,7 @@
 | ANAC | Rankings de mercado | **Lectura de informes oficiales enlazados** | Publicar datos agregados con fuente/fecha y condiciones de reuso |
 | ChileCompra / Mercado Público | Registro, licitaciones/contratos públicos | **Enlace externo**, no contratación directa | Habilitación/proceso de compra; API solo según acceso/términos |
 | Google Maps | Búsqueda de talleres | **Enlace externo generado tras acción del usuario** | No usar Places API ni afirmar rating, certificación o política sobre repuestos |
-| Repuesteras chilenas | SKU, precios/stock, proveedores | **No conectado** | Contrato/licencia, inventario firmado/fechado, impuestos, origen, disponibilidad |
+| Repuesteras chilenas | SKU, precios/stock, proveedores | **API propia B2B implementada pero deshabilitada; ningún feed/proveedor real conectado** | Contrato/licencia, credenciales de servidor, inventario firmado/fechado, revisión manual, impuestos, origen, disponibilidad |
 | Awto y otras arrendadoras | Flotas de carsharing | **Sin contrato ni acceso** | Acuerdo de operador, autorización, política reparación y privacidad |
 | Proveedores de mantenimiento público | Flotas hospitalarias, policiales y municipales | **Sin contrato ni acceso** | Ley de compras, contrato, controles específicos, confidencialidad |
 

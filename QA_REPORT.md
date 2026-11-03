@@ -104,3 +104,33 @@ Revisadas issue #1 y PR #2, #4, #5, #6, #7; los cambios móviles del PR #8 está
 
 ### Coordinación
 PR #2 cerrado sin merge; PR #4/#5/#6/#7 permanecen independientes, con issue #1 como canal de coordinación de Antigravity. No alterar ramas ajenas, secretos, forzar push ni fusionar cambios con CI rojo.
+
+---
+
+## Etapa 2026-11-02 — marketplace B2B autenticado y catálogo público condicional
+
+**Rama:** `agent/marketplace-api-20261102`. Base: `main` en commit `de508dffda061e0e190bea82bd2310db803f6941`. PR: [#12](https://github.com/sandylazo1/NURVO-web/pull/12). No se editaron PR #4/#5/#6/#7 ni la rama de Antigravity.
+
+### Código añadido
+- `backend/app/marketplace.py`: router FastAPI habilitable, SQLite con `products`, `quotes`, `audit`; roles `admin`, `supplier`, `buyer`, `workshop`, `fleet`; claves B2B de alta entropía autenticadas frente a hashes SHA-256 almacenados solo en configuración de servidor.
+- Creación/actualización de productos por proveedor identificado. SKU y fuente HTTPS obligatorios; condición y familia validadas. Publicación únicamente bajo permiso administrativo y revisión interna referenciada. Cambiar stock/precio revierte estado a `pending`; consultas públicas solo fichas publicadas con última declaración no anterior a 30 días.
+- Solicitudes de cotización B2B por producto publicado, con cantidad y respuesta del proveedor propietario. Sin nombre, RUT, VIN, patente, pago, pedido, reserva ni facturación. Aislamiento por empresa y control de autorización por objeto en todas las lecturas/escrituras de cotización.
+- `GET /api/marketplace/metrics`: solo administrador; conteos internos agregados de productos y cotizaciones, NO ventas ni ingresos.
+- `catalogo.html`, `assets/catalogo.js`, `assets/catalogo.css`: catálogo público de solo lectura que muestra **sin backend habilitado** por defecto; si hay backend conectado, resultados con fuente, marca, SKU, familia, condición, precio/stock declarado, fecha, garantía informada y aviso de compatibilidad sin verificar.
+- Enlaces desde `index.html`, `ecosistema.html`, `vin.html`, `gestion.html`, `alianzas.html`, `equipo.html`. Actualizados README, backend README, privacidad y matriz de integraciones.
+- `backend/tests/test_marketplace.py`: pruebas sin datos reales de proveedores, aislamiento tenants, rechazo de claves y roles ilegítimos, filtros, fuentes no seguras, publicación, flujo de cotización, anti-BOLA/IDOR y métricas. `tests/catalogo.mjs` + Chromium con respuesta simulada **solo para QA**, test de XSS y móviles.
+- `docs/MARKETPLACE_API_CONTRACT.md`: activación segura paso a paso, contrato, roles, arquitectura y barreras legales.
+
+### Verificación inicial
+- CI [#41551089951](https://github.com/sandylazo1/NURVO-web/actions/runs/41551089951) del commit inicial `e1308cb`: **3/3 success**, confirma API B2B y pruebas Python sin afectar el sitio anterior.
+- CI [#41552029799](https://github.com/sandylazo1/NURVO-web/actions/runs/41552029799): backend **15 passed, 1 warning** (deprecación no bloqueante), frontend estático aprobado. Las ejecuciones posteriores verifican el catálogo estático y navegador; antes de fusionar debe constar el run verde del **último commit de esta rama**.
+- La base nueva del marketplace y las ofertas actuales están **vacías**. Las credenciales y convenios no existen ni se han provisto. No se ha ejecutado un proveedor real, servicio de pagos ni consulta gubernamental.
+- No se realizaron pruebas de penetración externas; pruebas de seguridad funcional y revisión de código **no equivalen a certificación**.
+
+### Restricciones y puertas de producción
+1. `NURVO_MARKETPLACE_ENABLED=false` por defecto y `NURVO_MARKETPLACE_KEYS_JSON` vacío. Ningún secreto en Pages, commit o documentos. El backend requiere hosting HTTPS separado.
+2. Proveedores B2B deben firmar acuerdos, documentar importación/identificación, origen de piezas, términos de garantía, condición, stock, IVA y vigencia. Una publicación administrativa no acredita genuinidad ni compatibilidad mecánica.
+3. No publicar ni automatizar Registro Civil, Carabineros, Auto Seguro, datos de flotas, acuerdos OEM o precios de terceros sin derecho de acceso y licencias.
+4. Antes de transacciones: identidad legal del operador, términos y privacidad revisados, control de identidad de consumidores, órdenes, devoluciones/reclamos, facturación e integración con PSP/SII, pruebas de seguridad, tasa de solicitudes y backups.
+5. Ley 21.719 entrará en vigencia el **1 de diciembre de 2026**. Al 02-11-2026 no se afirma certificación ni cumplimiento total; se deben determinar roles jurídicos, bases, conservación y derecho de los titulares antes de captar datos.
+6. GitHub Pages aloja exclusivamente HTML/CSS/JS; **no ejecuta FastAPI**.
