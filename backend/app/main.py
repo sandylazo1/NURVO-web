@@ -16,6 +16,7 @@ from .providers import LicensedProvider
 from .scheduler import make_scheduler
 from .service import PlateService
 from .vin import decode_vin
+from .marketplace import build_marketplace_router, initialize_marketplace
 
 # Only common Chilean formats; format validity does not prove a plate exists.
 PLATE_PATTERN = re.compile(r"^(?:[A-Z]{4}[0-9]{2}|[A-Z]{2}[0-9]{4})$")
@@ -27,6 +28,8 @@ service = PlateService(store, provider, settings)
 @asynccontextmanager
 async def lifespan(application: FastAPI):
     await store.initialize()
+    if settings.marketplace_enabled and settings.marketplace_keys_json:
+        await initialize_marketplace(settings.database_path)
     scheduler = None
     # Run exactly one backend process with scheduler enabled to prevent duplication.
     if settings.enable_daily_refresh and provider.ready:
@@ -99,3 +102,11 @@ async def sources():
 async def get_vin(vin: str):
     """Decode an individual 17-digit VIN using NHTSA vPIC (not Chilean registration)."""
     return await decode_vin(vin)
+
+# Private B2B API; authenticated keys are used only by server-to-server clients.
+# Never embed X-NURVO-Key in GitHub Pages or expose a buyer key in the browser.
+app.include_router(
+    build_marketplace_router(settings.database_path, settings.marketplace_enabled,
+                             settings.marketplace_keys_json),
+    dependencies=[Depends(rate_limit)],
+)
