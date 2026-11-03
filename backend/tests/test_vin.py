@@ -68,4 +68,3 @@ async def test_missing_nhtsa_fields_remain_incomplete(monkeypatch):
     assert data["modelo"] is None
     assert data["ano"] is None
     assert data["estado_consulta"] == "incompleto"
-
