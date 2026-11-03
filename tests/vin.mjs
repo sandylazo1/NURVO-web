@@ -10,7 +10,7 @@ for (const id of ['vin-form','vin-number','vin-year','vin-status','vin-detail','
 const baseCss = readFileSync(new URL('../assets/vin-base.css', import.meta.url), 'utf8');
 const guideCss = readFileSync(new URL('../assets/vin-guide.css', import.meta.url), 'utf8');
 for (const id of ['donde-encontrarlo','consulta-vin','vin-live','vin-breakdown','vin-legacy','vin-engine',
-  'vin-trim','vin-clear','vin-summary-panel','vin-include-full','vin-copy-summary','vin-copy-status']){
+  'vin-trim','vin-part','vin-condition','vin-oem','vin-clear','vin-summary-panel','vin-include-full','vin-copy-summary','vin-copy-status']){
   assert.ok(html.includes('id="' + id + '"'), 'Falta función o ayuda del VIN: '+id);
 }
 assert.ok(html.includes('vin-svg-title') && html.includes('vin-svg-desc'), 'Dibujo accesible de ubicaciones VIN');
