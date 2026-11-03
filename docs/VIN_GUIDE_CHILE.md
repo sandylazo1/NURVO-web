@@ -12,7 +12,7 @@ Ubicaciones habituales, siempre condicionadas al fabricante:
 3. **Compartimento del motor, estructura o chasis:** el grabado puede estar en zonas diferentes; se recomienda consultar el manual antes de remover paneles o tocar zonas mecánicas.
 4. **Documento de inscripción chileno (padrón):** el certificado del Registro Civil informa VIN y chasis, además del número de motor; puede requerir identificación y trámites oficiales. No pedir a la persona que publique todo el padrón o los datos del propietario.
 
-El diagrama implementado en \`vin.html\` es una ilustración SVG original e indicativa. No representa ubicación homologada en todas las marcas.
+El diagrama implementado en `vin.html` es una ilustración SVG original e indicativa. No representa ubicación homologada en todas las marcas.
 
 **Fuentes públicas:**
 - ChileAtiende — [certificado de inscripción / padrón](https://www.chileatiende.gob.cl/fichas/3412-certificado): informa número de motor, chasis y VIN.
@@ -38,9 +38,9 @@ El diagrama implementado en \`vin.html\` es una ilustración SVG original e indi
 - La guía y la validación de formato trabajan sin enviar datos.
 - VIN y año **solo se transmiten a NHTSA** al pulsar voluntariamente «Consultar». El envío a un servicio estadounidense es externo al registro chileno.
 - Campos opcionales de motor/versión declarados por el usuario no se envían a NHTSA.
-- La ficha orientativa para solicitar repuestos se compone localmente y se copia con el identificador **oculto por defecto** (\`••••4352\`, por ejemplo). Compartir el VIN completo exige marcar casilla específica y pulsar «Copiar ficha».
+- La ficha orientativa puede incluir descripción de repuesto, preferencia genuino/OES/alternativo/remanufacturado/usado y referencia OEM aportadas por la persona. Cambiarlas no vuelve a consultar NHTSA. La ficha para solicitar repuestos se compone localmente y se copia con el identificador **oculto por defecto** (`••••4352`, por ejemplo). Compartir el VIN completo exige marcar casilla específica y pulsar «Copiar ficha».
 - No se guardan VIN ni datos de motor en localStorage ni en el repositorio. La sección de cotizaciones existente **sí** puede guardar precios/proveedores aportados por el usuario en localStorage, independientemente de la consulta VIN.
-- «Limpiar datos VIN» borra campos, ficha y resultados actuales del navegador; no puede recuperar una consulta que ya se envió a NHTSA ni borrar contenido copiado al portapapeles. Se advierte expresamente en \`privacidad.html\`.
+- «Limpiar datos VIN» borra campos, ficha y resultados actuales del navegador; no puede recuperar una consulta que ya se envió a NHTSA ni borrar contenido copiado al portapapeles. Se advierte expresamente en `privacidad.html`.
 - No enviar VIN como parámetro URL entre páginas. No hacer consultas automáticas al cargar la web. No usar el VIN como búsqueda encubierta de dueño.
 
 ## 4. Compatibilidad y oferta de repuestos
@@ -51,7 +51,7 @@ Para declarar compatibilidad real se requiere:
 1. Fuente OEM o catálogo con licencia comercial; referencia de parte y aplicaciones verificables.
 2. Identificación suficiente de motorización/versión y cambios por año/planta/lote; evaluación humana en sistemas críticos.
 3. Reglas de trazabilidad, procedencia, garantía legal/voluntaria, homologación y revisión técnica aplicable.
-4. Una evidencia por oferta/compatibilidad con fuente, fecha, responsable de confirmación y estatus específico. No inventar \`compatible=true\` por 17 caracteres.
+4. Una evidencia por oferta/compatibilidad con fuente, fecha, responsable de confirmación y estatus específico. No inventar `compatible=true` por 17 caracteres.
 5. Autorización del propietario/operador cuando vehículo es arrendado, de carsharing, de flota empresarial o institucional.
 
 El botón de catálogo en la ficha VIN abre el directorio comercial sin enviar ni guardar automáticamente el identificador. Si no existe inventario contratado o backend en operación, el catálogo muestra «sin backend conectado».
@@ -66,8 +66,8 @@ El botón de catálogo en la ficha VIN abre el directorio comercial sin enviar n
 
 ## 6. Calidad y próximos hitos
 
-- Pruebas \`node tests/vin.mjs\`: estructura, CSS local/CSP, enlaces oficiales, privacidad, renderizador y código fuente.
-- Chromium \`node tests/browser.mjs\`: error de I/O/Q, chasis 1975 sin NHTSA, decodificación de VIN con respuesta NHTSA **simulada solamente en pruebas**, presentación WMI/VDS/VIS, copia de VIN enmascarado y explícita, invalidación tras cambios y responsive.
-- Backend \`backend/tests/test_vin.py\`: rechazo de entradas inválidas, consulta moderna **sin año** y resultados incompletos no inventados, con NHTSA simulado en pruebas.
+- Pruebas `node tests/vin.mjs`: estructura, CSS local/CSP, enlaces oficiales, privacidad, renderizador y código fuente.
+- Chromium `node tests/browser.mjs`: error de I/O/Q, chasis 1975 sin NHTSA, decodificación de VIN con respuesta NHTSA **simulada solamente en pruebas**, presentación WMI/VDS/VIS, copia de VIN enmascarado y explícita, invalidación tras cambios y responsive.
+- Backend `backend/tests/test_vin.py`: rechazo de entradas inválidas, consulta moderna **sin año** y resultados incompletos no inventados, con NHTSA simulado en pruebas.
 - **No se declara prueba en vivo de consulta externa** basada solo en mocks. Confirmar en dispositivo real, y diseñar fallback a la URL oficial cuando el browser o NHTSA bloquee la conexión.
 - Pendiente contractual: licencias de fabricantes para fitment, análisis de privacidad 21.719 cuando corresponda, pilotos de talleres, soporte y postventa.
