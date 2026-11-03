@@ -28,3 +28,8 @@ def test_routes_without_provider(monkeypatch, tmp_path):
         sources = client.get("/api/fuentes")
         assert sources.status_code == 200
         assert "autoseguro.gob.cl" in sources.json()["consulta_robo_oficial"]
+        marketplace = client.get("/api/marketplace/status")
+        assert marketplace.status_code == 200
+        assert marketplace.json()["enabled"] is False
+        assert marketplace.json()["checkout"] == "no_disponible"
+        assert client.get("/api/marketplace/products").status_code == 503
