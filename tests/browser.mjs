@@ -112,6 +112,10 @@ try {
   // VIN tools are a static Pages route. Mock NHTSA in browser tests: no claim of live API availability.
   const vinPage = await context.newPage();
   vinPage.on('pageerror', err => errors.push(err.message));
+  let nhtsaRequests = 0;
+  vinPage.on('request', request => {
+    if(request.url().includes('vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/')) nhtsaRequests++;
+  });
   await vinPage.goto(new URL('vin.html', ROOT).href, {waitUntil: 'domcontentloaded'});
   assert.match(await vinPage.title(), /VIN.*NURVO/);
   assert.equal(await vinPage.locator('#donde-encontrarlo svg[role="img"]').count(),1);
@@ -130,6 +134,7 @@ try {
   assert.match(await vinPage.locator('#vin-detail').textContent(), /no verificados/i);
   assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),false);
   assert.equal(await vinPage.locator('#vin-copy-summary').isDisabled(),false);
+  assert.equal(nhtsaRequests,0,'Chasis antiguo no debe consultar NHTSA');
   await vinPage.locator('#vin-number').fill('1HGCM82633A004352');
   await vinPage.locator('#vin-year').fill('');
   await vinPage.route('https://vpic.nhtsa.dot.gov/**', route => route.fulfill({
@@ -143,6 +148,12 @@ try {
   assert.equal(await vinPage.locator('#vin-breakdown code').count(),3);
   assert.match(await vinPage.locator('#vin-live').textContent(),/17\/17 caracteres/);
   assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),false);
+  assert.equal(nhtsaRequests,1,'VIN moderno se consulta solo tras pulsar');
+  await vinPage.locator('.vin-optional-parts summary').click();
+  await vinPage.locator('#vin-part').fill('Pastillas de freno delanteras');
+  await vinPage.locator('#vin-condition').selectOption('alternativo');
+  await vinPage.locator('#vin-oem').fill('REF-OEM-INFORMADA');
+  assert.equal(nhtsaRequests,1,'Cambiar preferencias locales no debe consultar NHTSA');
   await vinPage.evaluate(() => {
     window.__vinCopied = '';
     Object.defineProperty(navigator, 'clipboard', {
@@ -152,6 +163,9 @@ try {
   await vinPage.locator('#vin-copy-summary').click();
   const masked = await vinPage.evaluate(() => window.__vinCopied);
   assert.match(masked,/VIN oculto/);
+  assert.match(masked,/Pastillas de freno delanteras/);
+  assert.match(masked,/Alternativo \/ aftermarket/);
+  assert.match(masked,/REF-OEM-INFORMADA/);
   assert.ok(!masked.includes('1HGCM82633A004352'),'Por defecto, no exponer VIN completo');
   await vinPage.locator('#vin-include-full').check();
   await vinPage.locator('#vin-copy-summary').click();
