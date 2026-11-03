@@ -296,7 +296,7 @@ try {
       tenant_id:'supplier-test',
       sku:'TEST-BRAKE-007',
       title:'<img src=x onerror=alert(1)> Pastillas de ensayo',
-      condition:'alternativo',oem_reference:'REF-TEST-123',brand:'Marca ficticia',
+      condition:'alternativo',category:'frenos',oem_reference:'REF-TEST-123',brand:'Marca ficticia',
       fitment_note:'No certificado',
       price_clp:45990,stock_qty:4,
       source_url:'https://repuestos.example.cl/prueba',
@@ -313,6 +313,10 @@ try {
   await supplierCatalog.locator('#catalog-condition').selectOption('genuino');
   assert.equal(await supplierCatalog.locator('.catalog-card').count(),0);
   await supplierCatalog.locator('#catalog-condition').selectOption('alternativo');
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),1);
+  await supplierCatalog.locator('#catalog-category').selectOption('accesorios');
+  assert.equal(await supplierCatalog.locator('.catalog-card').count(),0);
+  await supplierCatalog.locator('#catalog-category').selectOption('frenos');
   assert.equal(await supplierCatalog.locator('.catalog-card').count(),1);
   for(const width of [320,390,768]){
     await supplierCatalog.setViewportSize({width,height:844});
