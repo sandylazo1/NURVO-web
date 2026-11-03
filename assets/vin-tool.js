@@ -90,10 +90,22 @@
     detail.replaceChildren();
     output('Identificador o contexto modificado. Revisa el formato y consulta cuando corresponda.');
   }
-  ['vin-number','vin-year','vin-engine','vin-trim'].forEach(id => {
+  ['vin-number','vin-year'].forEach(id => {
     $(id).addEventListener('input', () => { invalidateVinResult(); updateGuide(); });
   });
   $('vin-legacy').addEventListener('change', () => { invalidateVinResult(); updateGuide(); });
+  function refreshLocalPreferences() {
+    if (!latestSummary) return;
+    latestSummary.engine = $('vin-engine').value.trim().slice(0,80);
+    latestSummary.trim = $('vin-trim').value.trim().slice(0,80);
+    latestSummary.part = $('vin-part').value.trim().slice(0,100);
+    latestSummary.oem = $('vin-oem').value.trim().slice(0,70);
+    latestSummary.preference = $('vin-condition').selectedOptions[0]?.textContent || 'Por cotizar';
+    $('vin-copy-status').textContent = 'Ficha local actualizada; no se consultó NHTSA nuevamente.';
+  }
+  ['vin-engine','vin-trim','vin-part','vin-oem'].forEach(id =>
+    $(id).addEventListener('input', refreshLocalPreferences));
+  $('vin-condition').addEventListener('change', refreshLocalPreferences);
   $('vin-clear').addEventListener('click', () => {
     vinForm.reset();
     invalidateVinResult();
@@ -107,6 +119,9 @@
       userYear: $('vin-year').value.trim(),
       engine: $('vin-engine').value.trim().slice(0,80),
       trim: $('vin-trim').value.trim().slice(0,80),
+      part: $('vin-part').value.trim().slice(0,100),
+      oem: $('vin-oem').value.trim().slice(0,70),
+      preference: $('vin-condition').selectedOptions[0]?.textContent || 'Por cotizar',
       manufacturer: manufacturer || null,
     };
     summaryPanel.hidden = false;
@@ -127,6 +142,9 @@
       'Año informado por usuario: ' + (s.userYear || 'No indicado'),
       'Motor informado por usuario: ' + (s.engine || 'No indicado'),
       'Versión informada por usuario: ' + (s.trim || 'No indicada'),
+      'Repuesto o servicio buscado: ' + (s.part || 'A definir'),
+      'Tipo preferido de repuesto: ' + s.preference,
+      'Código OEM aportado por usuario: ' + (s.oem || 'No aportado; el proveedor debe identificarlo'),
       'Marca declarada por NHTSA: ' + (manufacturer?.make || 'No disponible'),
       'Modelo declarado por NHTSA: ' + (manufacturer?.model || 'No disponible'),
       'Año declarado por NHTSA: ' + (manufacturer?.year || 'No disponible'),
