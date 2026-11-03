@@ -37,6 +37,13 @@ Comprueba `http://127.0.0.1:8000/api/health` y consulta `http://127.0.0.1:8000/a
 
 La API nunca expone nombre, RUT, teléfono, dirección ni otros datos del propietario. La patente se valida como formato chileno común, no como patente existente.
 
+## Marketplace B2B de proveedores (opt-in)
+`backend/app/marketplace.py` agrega un catálogo y cotizaciones con aislamiento por organización. Por defecto **NURVO_MARKETPLACE_ENABLED=false**, sin proveedores reales ni precios falsos. API keys aleatorias solo para procesos B2B, guardadas como SHA-256 en variables secretas del hosting. La interfaz pública está en `catalogo.html` y muestra un estado vacío sin backend autorizado.
+
+La publicación requiere un rol `admin` y un expediente interno de revisión. No verifica por sí sola autenticidad de repuestos, encaje con un VIN, stock o garantías. Las solicitudes B2B no equivalen a compra ni reserva. Las estadísticas `GET /api/marketplace/metrics` son conteos de operaciones internos, no ingresos.
+
+**Documentación:** [docs/MARKETPLACE_API_CONTRACT.md](../docs/MARKETPLACE_API_CONTRACT.md). Pruebas: `python -m pytest -q tests`.
+
 ## Fuentes
 
 ## Proveedor chileno: AutoRiesgo (integración real disponible)
