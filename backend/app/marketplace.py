@@ -395,4 +395,26 @@ def build_marketplace_router(path: Path, enabled: bool, raw_keys: str) -> APIRou
             await db.commit()
         return {"id":quote_id,"status":"quoted","message":"Importe declarado por proveedor. Sin aceptación, facturación ni pago."}
 
+    @router.get("/metrics")
+    async def operational_metrics(principal=Depends(identity)):
+        """Only administrative aggregate counts, never personal or contract data."""
+        role_guard(principal,frozenset({"admin"}))
+        async with connect(path) as db:
+            async with db.execute(
+                "SELECT review_state, COUNT(*) AS amount FROM marketplace_products GROUP BY review_state"
+            ) as cur:
+                product_counts={row["review_state"]:row["amount"] for row in await cur.fetchall()}
+            async with db.execute(
+                "SELECT status, COUNT(*) AS amount FROM marketplace_quotes GROUP BY status"
+            ) as cur:
+                quote_counts={row["status"]:row["amount"] for row in await cur.fetchall()}
+        return {
+            "products_pending":product_counts.get("pending",0),
+            "products_published":product_counts.get("published",0),
+            "quotes_requested":quote_counts.get("requested",0),
+            "quotes_responded":quote_counts.get("quoted",0),
+            "source":"local_database_operations",
+            "not_sales_or_paid_orders":True,
+        }
+
     return router
