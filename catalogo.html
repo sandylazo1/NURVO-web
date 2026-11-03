@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es-CL"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B1F3B"><meta name="description" content="Consulta repuestos declarados por proveedores autorizados de NURVO. Datos reales solo con backend y contratos habilitados.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Catálogo con fuentes de proveedores | NURVO</title>
+<link rel="stylesheet" href="assets/ecosistema.css"><link rel="stylesheet" href="assets/nurvo-plus.css">
+<link rel="stylesheet" href="assets/catalogo.css">
+<script src="config.js" defer></script><script src="assets/catalogo.js" defer></script>
+</head><body><a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="top"><nav class="container nav"><a class="brand" href="index.html">N<span>U</span>RVO <small>Tu auto, bajo control</small></a><div class="nav-links"><a href="index.html">Inicio</a><a href="ecosistema.html">Tipos de repuestos</a><a href="catalogo.html" aria-current="page">Catálogo B2B</a><a href="gestion.html">Mantenimiento</a><a href="alianzas.html">Alianzas</a><a href="equipo.html">Equipo</a></div></nav></header>
+<main id="contenido"><section class="page-hero"><div class="container"><p class="overline">NURVO · Catálogo de proveedores</p><h1>Catálogo trazable, sin datos inventados.</h1>
+<p class="lead">Aquí aparecerán únicamente los repuestos que un proveedor autorizado haya declarado y NURVO haya habilitado para publicación. Los precios y existencias son declaraciones del proveedor, no reservas ni garantías de compatibilidad.</p>
+<div class="hero-meta"><span>SKU y referencia técnica</span><span>Estado del repuesto</span><span>Fecha y fuente</span></div></div></section>
+<section class="page-section container"><div class="catalog-intro"><div><p class="overline">01 · Disponibilidad real</p><h2>Consulta las ofertas publicadas</h2></div><p>Sin convenio activo, no hay productos para mostrar. NURVO no crea ofertas, talleres o precios ficticios para completar un catálogo.</p></div>
+<div id="catalog-status" class="status-note" role="status" aria-live="polite">Comprobando si existe una API comercial habilitada…</div>
+<div class="catalog-controls"><label>Tipo de repuesto<select id="catalog-condition">
+<option value="">Todos los tipos</option>
+<option value="genuino">Genuino/original declarado</option>
+<option value="oes">OES</option>
+<option value="alternativo">Alternativo</option>
+<option value="remanufacturado">Remanufacturado</option>
+<option value="usado">Usado</option>
+</select></label><label>Buscar por marca, SKU o descripción<input type="search" id="catalog-search" maxlength="70" placeholder="Ej.: frenos"></label>
+<button class="btn dark" id="catalog-reload" type="button">Actualizar consulta</button></div>
+<p id="catalog-count" class="field-note" role="status"></p>
+<div id="catalog-products" class="catalog-grid" aria-live="polite"><div class="empty-catalog">La disponibilidad todavía no fue comprobada.</div></div>
+<div class="callout-warn" style="margin-top:22px"><strong>Compatibilidad y seguridad:</strong> no compres ni instales una pieza basándote únicamente en su descripción o VIN genérico. Confirma número OEM, motorización, versión, homologación si corresponde y evaluación profesional. Una revisión administrativa del anuncio no certifica originalidad, garantía de fábrica ni stock.</div></section>
+<section class="page-section alt"><div class="container"><p class="overline">02 · Cómo se publica un producto</p><h2>Del proveedor al comprador, con responsabilidades definidas</h2>
+<div class="process-grid"><article class="step-card"><span class="step">01 · CONTRATO</span><h3>Proveedor habilitado</h3><p>Solo un actor comercial autorizado y autenticado puede presentar datos de inventario. No existen cuentas públicas autoactivadas.</p></article>
+<article class="step-card"><span class="step">02 · DECLARACIÓN</span><h3>Ficha y fuente</h3><p>El proveedor registra SKU, tipo, precio CLP, stock, referencia OEM si aplica, garantía informada y URL de origen.</p></article>
+<article class="step-card"><span class="step">03 · REVISIÓN</span><h3>Publicación controlada</h3><p>NURVO revisa la ficha antes de exhibirla. Una modificación de precio o stock vuelve a requerir aprobación.</p></article></div>
+<div class="headline-strip"><p><strong>Operación actual:</strong> el backend FastAPI no se hospeda en GitHub Pages. Los precios se mostrarán aquí solo cuando el backend esté desplegado, el proveedor esté autorizado y haya enviado registros revisados. Sin compra, pago ni reserva desde esta página.</p></div></div></section>
+<section class="page-section container"><p class="overline">03 · Otras herramientas</p><h2>¿Todavía no hay productos?</h2>
+<div class="source-grid">
+<article class="source-tile"><h3>Preparar solicitud de repuestos</h3><p>Genera un borrador que luego puedes compartir con un proveedor de tu elección.</p><a href="ecosistema.html#solicitud">Ir a cotizaciones</a></article>
+<article class="source-tile"><h3>Organizar mantenciones</h3><p>Calcula hitos usando los datos del manual del vehículo y compara importes de dos cotizaciones.</p><a href="gestion.html">Ir al planificador</a></article>
+<article class="source-tile"><h3>Ser proveedor de NURVO</h3><p>Conoce el programa propuesto de colaboración y los requisitos de contratación e integración.</p><a href="alianzas.html">Explorar alianzas</a></article>
+</div></section>
+</main><footer><div class="container footer"><strong>NURVO · Tu auto, bajo control</strong><span>Catálogo comercial sujeto a proveedores autorizados; ninguna oferta ficticia.</span><div><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a> · <a href="equipo.html">Equipo</a></div></div></footer>
+</body></html>
