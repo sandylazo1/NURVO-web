@@ -2,7 +2,7 @@
 .catalog-intro{display:flex;justify-content:space-between;align-items:end;gap:30px}
 .catalog-intro>div{flex:1}
 .catalog-intro>p{max-width:520px;color:#52647b;font-size:14px}
-.catalog-controls{display:grid;grid-template-columns:1fr 1.35fr auto;gap:14px;align-items:end;margin:22px 0}
+.catalog-controls{display:grid;grid-template-columns:1fr 1fr 1.3fr auto;gap:14px;align-items:end;margin:22px 0}
 .catalog-controls .btn{margin-bottom:13px}
 .catalog-controls label{margin:0 0 13px;font-size:13px}
 .catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:21px}
