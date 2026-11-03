@@ -37,6 +37,8 @@ class Settings:
     cache_retention_days: int = 90
     enable_docs: bool = field(default_factory=lambda: flag("NURVO_ENABLE_DOCS", True))
     allowed_hosts: tuple[str, ...] = field(default_factory=lambda: csv("NURVO_ALLOWED_HOSTS", "localhost,127.0.0.1,*.onrender.com,*.railway.app,*.fly.dev"))
+    marketplace_enabled: bool = field(default_factory=lambda: flag("NURVO_MARKETPLACE_ENABLED", False))
+    marketplace_keys_json: str = field(default_factory=lambda: os.getenv("NURVO_MARKETPLACE_KEYS_JSON", "").strip())
     def ready(self) -> bool:
         if self.provider_kind == "autoriesgo":
             return self.provider_authorized and bool(self.provider_token)
