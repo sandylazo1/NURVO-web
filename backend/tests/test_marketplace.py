@@ -30,6 +30,7 @@ PRODUCT = {
     "sku": "BRAKE-007",
     "title": "Pastillas alternativas de prueba",
     "condition": "alternativo",
+    "category": "frenos",
     "oem_reference": "REF-123",
     "brand": "Marca de ensayo",
     "fitment_note": "Compatibilidad por confirmar con especialista",
@@ -122,11 +123,15 @@ def test_catalogue_requires_review_and_scopes_suppliers(tmp_path):
         assert visible["count"] == 1
         assert visible["results"][0]["sku"] == PRODUCT["sku"]
         assert visible["results"][0]["stock_qty"] == 4
+        assert visible["results"][0]["category"] == "frenos"
         assert "no_certificados" in visible["results"][0]["origin_status"] or "sin_certificacion" in visible["results"][0]["origin_status"]
         assert visible["results"][0]["fitment_status"] == "pendiente_de_verificacion_tecnica"
         assert client.get("/api/marketplace/products?condition=genuino").json()["results"] == []
+        assert client.get("/api/marketplace/products?category=accesorios").json()["results"] == []
+        assert len(client.get("/api/marketplace/products?category=frenos").json()["results"]) == 1
         assert client.get("/api/marketplace/products?limit=999").status_code == 422
         assert client.get("/api/marketplace/products?condition=ilegal").status_code == 422
+        assert client.get("/api/marketplace/products?category=ilegal").status_code == 422
 
         updated = dict(PRODUCT, price_clp=49000)
         update = client.post("/api/marketplace/products", json=updated, headers=headers("supplier_a"))
@@ -206,4 +211,5 @@ def test_no_private_source_urls_or_fake_vendor_data(tmp_path):
         response=client.post("/api/marketplace/products",
                              json=dict(PRODUCT,condition="falsificado"),headers=headers("supplier_a"))
         assert response.status_code == 422
+        assert client.post("/api/marketplace/products",json=dict(PRODUCT,category="peligroso"),headers=headers("supplier_a")).status_code == 422
         assert client.get("/api/marketplace/products").json()["results"] == []
