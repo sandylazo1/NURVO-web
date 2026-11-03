@@ -12,7 +12,7 @@ assert.match(html,/script src="assets\/catalogo.js" defer/);
 assert.match(html,/assets\/catalogo.css/);
 assert.ok(css.length>1500);
 assert.ok(!/\bstyle="/.test(html),'No styles inline under CSP');
-for(const id of ['catalog-status','catalog-condition','catalog-search','catalog-reload','catalog-count','catalog-products']){
+for(const id of ['catalog-status','catalog-condition','catalog-category','catalog-search','catalog-reload','catalog-count','catalog-products']){
   assert.ok(html.includes('id="'+id+'"'),'Missing catalogue control: '+id);
 }
 for(const page of ['index.html','ecosistema.html','vin.html','gestion.html','alianzas.html','equipo.html']){
