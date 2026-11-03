@@ -114,11 +114,22 @@ try {
   vinPage.on('pageerror', err => errors.push(err.message));
   await vinPage.goto(new URL('vin.html', ROOT).href, {waitUntil: 'domcontentloaded'});
   assert.match(await vinPage.title(), /VIN.*NURVO/);
+  assert.equal(await vinPage.locator('#donde-encontrarlo svg[role="img"]').count(),1);
+  assert.match(await vinPage.locator('#donde-encontrarlo').textContent(),/parabrisas/i);
+  assert.match(await vinPage.locator('#donde-encontrarlo').textContent(),/padrón/i);
+  assert.match(await vinPage.locator('a[href="https://www.chileatiende.gob.cl/fichas/3412-certificado"]').first().textContent(),/padrón/i);
+  await vinPage.locator('#vin-number').fill('1HGCM82633A00435I');
+  assert.match(await vinPage.locator('#vin-live').textContent(),/no admite I, O, Q/i);
+  await vinPage.locator('#vin-submit').click();
+  assert.match(await vinPage.locator('#vin-status').textContent(),/no admite I, O ni Q/);
+  assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),true);
   await vinPage.locator('#vin-number').fill('CHASIS1975');
   await vinPage.locator('#vin-year').fill('1975');
   await vinPage.locator('#vin-submit').click();
   assert.match(await vinPage.locator('#vin-status').textContent(), /antiguo|1981/i);
   assert.match(await vinPage.locator('#vin-detail').textContent(), /no verificados/i);
+  assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),false);
+  assert.equal(await vinPage.locator('#vin-copy-summary').isDisabled(),false);
   await vinPage.locator('#vin-number').fill('1HGCM82633A004352');
   await vinPage.locator('#vin-year').fill('');
   await vinPage.route('https://vpic.nhtsa.dot.gov/**', route => route.fulfill({
@@ -129,6 +140,22 @@ try {
   assert.match(await vinPage.locator('#vin-status').textContent(), /NHTSA/i);
   await vinPage.locator('#vin-detail').getByText('HONDA').waitFor({timeout:10000});
   assert.match(await vinPage.locator('#vin-detail').textContent(), /HONDA/);
+  assert.equal(await vinPage.locator('#vin-breakdown code').count(),3);
+  assert.match(await vinPage.locator('#vin-live').textContent(),/17\/17 caracteres/);
+  assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),false);
+  await vinPage.evaluate(() => {
+    window.__vinCopied = '';
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true, value: {writeText: async text => { window.__vinCopied = text; }}
+    });
+  });
+  await vinPage.locator('#vin-copy-summary').click();
+  const masked = await vinPage.evaluate(() => window.__vinCopied);
+  assert.match(masked,/VIN oculto/);
+  assert.ok(!masked.includes('1HGCM82633A004352'),'Por defecto, no exponer VIN completo');
+  await vinPage.locator('#vin-include-full').check();
+  await vinPage.locator('#vin-copy-summary').click();
+  assert.match(await vinPage.evaluate(() => window.__vinCopied), /1HGCM82633A004352/);
   await vinPage.locator('#quote-service').fill('Frenos');
   await vinPage.locator('#quote-provider').fill('Cotización manual');
   await vinPage.locator('#quote-price').fill('15000');
@@ -140,6 +167,22 @@ try {
   await vinPage.locator('#center-form button').click();
   assert.equal(await vinPage.locator('#center-link').isHidden(), false);
   assert.match(await vinPage.locator('#center-link').getAttribute('href'), /google\.com\/maps\/search/);
+  await vinPage.locator('#vin-number').fill('ABCD2026');
+  assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),true,
+    'Una ficha anterior no debe permanecer habilitada tras modificar el VIN');
+  await vinPage.locator('#vin-legacy').check();
+  await vinPage.locator('#vin-submit').click();
+  assert.match(await vinPage.locator('#vin-status').textContent(),/antiguo|no estandarizado/i);
+  assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),false);
+  await vinPage.locator('#vin-clear').click();
+  assert.equal(await vinPage.locator('#vin-number').inputValue(),'');
+  assert.equal(await vinPage.locator('#vin-summary-panel').isHidden(),true);
+  for(const width of [320,390,768]){
+    await vinPage.setViewportSize({width,height:844});
+    assert.equal(await vinPage.evaluate(()=>document.documentElement.scrollWidth <= window.innerWidth),true,
+      'Guía VIN con diseño móvil sin overflow a '+width+' px');
+  }
+  await vinPage.screenshot({path:'test-artifacts/nurvo-vin-guide-mobile.png',fullPage:true,animations:'disabled'});
   await vinPage.close();
 
   // Automotive ecosystem: real browser behavior, without fabricated provider/official API data.
