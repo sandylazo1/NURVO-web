@@ -3,7 +3,7 @@
 Sitio público: https://sandylazo1.github.io/NURVO-web/
 
 ## VIN, precios y talleres (rama de revisión)
-- Herramienta estática en `vin.html`: decodificación pública NHTSA vPIC de VIN estandarizados, sin pedir año obligatorio. Cobertura principal 1981 en adelante; chasis antiguos permiten registro manual **sin inventar identificación**.
+- [Guía VIN en Chile](vin.html#donde-encontrarlo): diagrama propio de parabrisas, puerta y chasis; instrucciones para encontrar VIN en el padrón, validación local de 17 caracteres sin año obligatorio, visualización WMI/VDS/VIS, chasis antiguos sin decodificación automática y ficha para repuestos con VIN oculto por defecto. La decodificación NHTSA vPIC es informativa, de cobertura limitada; no garantiza compatibilidad de pieza o situación legal.
 - En GitHub Pages, la consulta pública NHTSA se intenta desde el navegador; si CORS, conectividad o límites del servicio lo impiden, se muestra error y enlace a la fuente oficial, no un resultado ficticio. El backend FastAPI existente requiere alojamiento independiente.
 - Cotizaciones/precios ingresados y fechados por el usuario, guardados solo en navegador y **no verificados por NURVO**. No hay feed de precios/stock en vivo ni red comercial afirmada.
 - Lista orientativa de mantenimiento y búsqueda externa de talleres por ciudad/comuna (sin afirmar acuerdos o disponibilidad).
