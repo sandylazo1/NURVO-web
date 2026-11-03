@@ -134,3 +134,29 @@ PR #2 cerrado sin merge; PR #4/#5/#6/#7 permanecen independientes, con issue #1 
 4. Antes de transacciones: identidad legal del operador, términos y privacidad revisados, control de identidad de consumidores, órdenes, devoluciones/reclamos, facturación e integración con PSP/SII, pruebas de seguridad, tasa de solicitudes y backups.
 5. Ley 21.719 entrará en vigencia el **1 de diciembre de 2026**. Al 02-11-2026 no se afirma certificación ni cumplimiento total; se deben determinar roles jurídicos, bases, conservación y derecho de los titulares antes de captar datos.
 6. GitHub Pages aloja exclusivamente HTML/CSS/JS; **no ejecuta FastAPI**.
+
+---
+
+## Guía VIN en Chile y solicitud de compatibilidad — PR #13 (02/11/2026)
+
+**Rama:** `agent/vin-discovery-compatibility-20261102`, partiendo de main `d4be5cf0b3f86755b8dc589a3a9a127d15b70e75`. **PR:** https://github.com/sandylazo1/NURVO-web/pull/13.
+
+### Implementación real
+- Se conservó la consulta VIN moderna con API NHTSA vPIC, sin año obligatorio; sin consulta ni credenciales para Registro Civil o Carabineros. Se agregó guía de ubicación VIN con diagrama SVG original: parabrisas del lado del conductor, marco de puerta, vano motor/chasis y padrón chileno. Referencias oficiales en `docs/VIN_GUIDE_CHILE.md`.
+- Se externalizó CSS VIN a `assets/vin-base.css` y `assets/vin-guide.css`; CSP restringida a fuentes locales y acceso NHTSA únicamente cuando se consulta.
+- Validador visual de VIN de 17 caracteres (sin I/O/Q) con WMI/VDS/VIS; modo explícito de chasis antiguo/no estandarizado, sin inferencia por año ni fuente oficial inexistente. Año siempre opcional.
+- Ficha local para consultar compatibilidad: datos disponibles NHTSA e información aportada de motor, versión, repuesto, categoría genuino/OES/alternativo/remanufacturado/usado y referencia OEM. **No** confirma compatibilidad; sólo se copia al portapapeles tras acción del usuario y VIN oculto por defecto (opción explícita de incluirlo completo).
+- Se añadieron enlaces desde inicio, catálogo, ecosistema, mantenimiento y alianzas; actualización informativa en `privacidad.html`, `README.md` y pruebas.
+- Pruebas Node de interfaz/guía/CSP, Chromium con NHTSA **interceptada y simulada solo en QA**, VIN histórico sin red, copia oculto vs completo, preferencias sin llamadas extras, y responsive 320/390/768. Backend Python con NHTSA simulado: VIN moderno sin año y resultados incompletos no inventados.
+
+### Incidencias de QA y correcciones
+- Run https://github.com/sandylazo1/NURVO-web/actions/runs/41554346395: Chromium detectó que el render de grupos WMI/VDS/VIS intentaba buscar elementos por ID en vez de crearlos, por lo que no aparecían los tres grupos. Corregido en commit https://github.com/sandylazo1/NURVO-web/commit/5548c8a2285919eb89418a27aef610c798d9e73e.
+- Run https://github.com/sandylazo1/NURVO-web/actions/runs/41554407167: `git diff --check` detectó línea en blanco adicional al final de `backend/tests/test_vin.py`; normalizada sin modificar resultados de pruebas.
+- Run https://github.com/sandylazo1/NURVO-web/actions/runs/41555093849: 3/3 trabajos CI aprobados en ronda previa de guía+preferencias (frontend, Python, Chromium). El **CI final debe verificarse nuevamente para el último SHA antes del merge**.
+
+### Pendientes ajenos a la herramienta VIN
+- Integración real de fitment/OEM y catálogos de proveedor: requiere contratos, API, trazabilidad y revisión técnica; no basta decodificar un VIN.
+- Información de dominio, propiedad, patente chilena, estado de robo, multas, PRT, mantenimientos y recall: usar servicios oficiales/permiso expreso; sin conexión privada habilitada.
+- Backend FastAPI requiere hosting independiente, no existe ejecución de Python en GitHub Pages.
+- No contratos de marca/taller/flota pública, cobros, stock real o adjudicaciones; términos jurídicos aún requieren identificar operador y asesoría.
+- No tocar secretos ni los PR #4/#5/#6/#7; sin force push ni merges rojos.
