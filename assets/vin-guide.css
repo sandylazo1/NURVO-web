@@ -1,0 +1,60 @@
+/* NURVO VIN journey — self-contained; no third-party font or image requests */
+:root{--vin-ink:#0b1f3b;--vin-red:#e10600;--vin-line:#dae3ee;--vin-muted:#52657a}
+html{scroll-behavior:smooth}
+.vin-hero{background:radial-gradient(circle at 83% 18%,#20415f 0,transparent 43%),linear-gradient(120deg,#061830,#102e4b);border-radius:22px;padding:clamp(27px,4.7vw,52px);color:white;position:relative;overflow:hidden;margin:0 0 24px}
+.vin-hero:after{content:"";position:absolute;right:-45px;bottom:-125px;width:280px;height:280px;border:48px solid #ffffff0a;border-radius:100%;pointer-events:none}
+.vin-hero .eyebrow{color:#ff9696}.vin-hero h1{max-width:780px;margin-bottom:15px}.vin-hero .intro{color:#d8e3f0;font-size:16px;max-width:690px}.vin-hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.vin-hero-actions a{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;padding:11px 15px;font-weight:750;text-decoration:none;font-size:14px;min-height:45px}
+.vin-hero-actions .primary{background:var(--vin-red);color:white}.vin-hero-actions .outline{border:1px solid #7c91ad;color:white}
+.vin-hero-meta{display:flex;gap:9px;flex-wrap:wrap;margin:23px 0 0}.vin-hero-meta span{font-size:11px;padding:6px 10px;color:#e4edf7;border:1px solid #ffffff47;border-radius:100px}
+.vin-section-heading{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:17px}.vin-section-heading .eyebrow{margin:0 0 6px}
+.vin-location-layout{display:grid;grid-template-columns:1.08fr .92fr;gap:26px;align-items:start}
+.vin-diagram{background:#f1f5fa;border:1px solid #dae4ee;border-radius:15px;padding:16px;overflow:hidden}
+.vin-diagram svg{width:100%;height:auto;display:block}
+.vin-diagram-key{font-size:12px;color:#54677f;margin:8px 0 0;line-height:1.6}
+.vin-locations{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vin-location{background:#fcfdff;border:1px solid #dae4ef;border-radius:12px;padding:16px;min-width:0}
+.vin-location .index{font-size:11px;letter-spacing:.07em;color:#ad1d29;font-weight:900}
+.vin-location h3{font-size:16px;margin:8px 0 6px}.vin-location p{font-size:13px;line-height:1.55;color:#52647a;margin:0}
+.vin-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:18px 0 0}
+.vin-step{padding:16px;border:1px solid #dbe4ee;border-radius:12px;background:#f9fbfd}
+.vin-step b{display:inline-flex;background:#0b1f3b;color:white;width:26px;height:26px;border-radius:50%;align-items:center;justify-content:center;font-size:12px}
+.vin-step strong{display:block;margin:10px 0 5px;font-size:14px}.vin-step span{font-size:12px;color:#54677e}
+.vin-safety{padding:15px 18px;background:#fff4e0;border-left:4px solid #d7a03a;border-radius:9px;color:#72511d;margin:18px 0 0;font-size:13px}
+.vin-safety a{color:#8d1e20;font-weight:750}
+.vin-tools .meta-hint{font-size:12px;color:#52647a;font-weight:600}
+.vin-input-line{display:grid;grid-template-columns:minmax(0,1fr) 130px;align-items:end;gap:14px}
+.vin-type-help{display:flex;gap:8px;flex-wrap:wrap;margin:11px 0}
+.vin-pill{padding:5px 10px;border-radius:100px;border:1px solid #cbd7e5;background:#f5f8fc;font-size:11px;color:#415775;font-weight:750}
+.vin-live{margin:8px 0 14px;padding:10px 13px;border-left:3px solid #64758c;border-radius:7px;background:#edf2f8;font-size:13px;color:#3e526c;min-height:40px}
+.vin-live[data-level=warning]{background:#fff3dd;border-color:#d89b28;color:#674918}
+.vin-live[data-level=ok]{background:#e5f3eb;border-color:#35865b;color:#235b3d}
+.vin-breakdown{display:grid;grid-template-columns:3fr 6fr 8fr;gap:5px;margin:16px 0 5px}
+.vin-breakdown>div{display:grid;gap:3px;min-width:0}
+.vin-breakdown code{font:750 clamp(11px,1.7vw,17px)/1.1 ui-monospace,Consolas,monospace;letter-spacing:.035em;padding:10px 5px;text-align:center;border-radius:7px;background:#e9eef5;white-space:nowrap;overflow:hidden}
+.vin-breakdown>div:nth-child(2) code{background:#dce8f7}.vin-breakdown>div:nth-child(3) code{background:#ffe9e9}
+.vin-breakdown span{font-size:11px;color:#5a6c82;text-align:center}
+.vin-breakdown-empty{font-size:12px;color:#506178}
+.vin-quick-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.vin-quick-faq article{background:#f7f9fc;border:1px solid #dce5ed;border-radius:12px;padding:17px}
+.vin-quick-faq h3{font-size:15px;margin:0 0 7px}.vin-quick-faq p{font-size:13px;color:#51647b;margin:0}
+.vin-next-steps{background:#eff4f9;border-radius:12px;padding:18px 20px;margin:17px 0}
+.vin-next-steps h3{font-size:16px;margin:0 0 8px}.vin-next-steps p{font-size:13px;color:#4e6075}
+.vin-journey-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:11px}
+.vin-journey-links a{display:inline-flex;padding:10px 14px;border-radius:9px;border:1px solid #b8c9db;color:#102d4e;text-decoration:none;font-weight:750;font-size:13px;background:white}
+.vin-summary-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0 3px}
+.vin-summary-actions label{display:flex;align-items:center;gap:8px;font-size:12px;margin:0}
+.vin-summary-actions input{width:18px;height:18px;accent-color:#e10600}
+.vin-summary-actions button:disabled{opacity:.5;cursor:not-allowed}
+.vin-guide-sources{display:flex;flex-wrap:wrap;gap:10px;margin:15px 0 0}
+.vin-guide-sources a{font-size:12px;font-weight:800;text-decoration:underline}
+.vin-legacy-note{font-size:12px;margin-top:6px;color:#5b6d83}
+.vin-related{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.vin-related a{display:inline-flex;border:1px solid #ccd6e2;border-radius:8px;padding:10px 13px;font-size:13px;font-weight:800;text-decoration:none}
+@media(max-width:850px){.vin-location-layout{grid-template-columns:1fr}.vin-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.vin-hero{border-radius:13px;padding:25px 19px}.vin-hero h1{font-size:clamp(29px,9vw,42px)}.vin-locations,.vin-steps,.vin-quick-faq{grid-template-columns:1fr}.vin-input-line{grid-template-columns:1fr}.vin-section-heading{display:block}.vin-breakdown code{font-size:11px;letter-spacing:0}.vin-breakdown span{font-size:10px}.vin-location{padding:15px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.vin-optional-parts{margin:17px 0;padding:15px 18px;border:1px solid #d7e0ec;background:#f8fafc;border-radius:11px}
+.vin-optional-parts summary{cursor:pointer;font-size:14px;font-weight:800;color:#14324e}
+.vin-optional-parts[open] summary{margin-bottom:13px}
+.vin-optional-parts label{font-size:13px}
