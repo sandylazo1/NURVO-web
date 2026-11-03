@@ -54,3 +54,7 @@ html{scroll-behavior:smooth}
 @media(max-width:850px){.vin-location-layout{grid-template-columns:1fr}.vin-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.vin-hero{border-radius:13px;padding:25px 19px}.vin-hero h1{font-size:clamp(29px,9vw,42px)}.vin-locations,.vin-steps,.vin-quick-faq{grid-template-columns:1fr}.vin-input-line{grid-template-columns:1fr}.vin-section-heading{display:block}.vin-breakdown code{font-size:11px;letter-spacing:0}.vin-breakdown span{font-size:10px}.vin-location{padding:15px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.vin-optional-parts{margin:17px 0;padding:15px 18px;border:1px solid #d7e0ec;background:#f8fafc;border-radius:11px}
+.vin-optional-parts summary{cursor:pointer;font-size:14px;font-weight:800;color:#14324e}
+.vin-optional-parts[open] summary{margin-bottom:13px}
+.vin-optional-parts label{font-size:13px}
