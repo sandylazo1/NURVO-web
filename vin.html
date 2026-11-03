@@ -65,6 +65,14 @@
 <div class="vin-input-line"><label for="vin-engine">Motor / motorización (opcional, declarado por ti)<input id="vin-engine" maxlength="80" placeholder="Ej.: 1.6 GDI; si lo sabes" autocomplete="off"></label>
 <label for="vin-trim">Versión / equipamiento (opcional)<input id="vin-trim" maxlength="80" placeholder="Ej.: 4x4, AT, Plus" autocomplete="off"></label></div>
 <p class="vin-legacy-note">Estos dos campos se usan únicamente para preparar tu ficha técnica local; no se envían a NHTSA.</p>
+<details class="vin-optional-parts"><summary>Quiero cotizar un repuesto con estos datos (opcional)</summary>
+<p class="vin-legacy-note">Completa el repuesto que necesitas y, si ya la tienes, su referencia OEM. Ninguno de estos campos se envía a NHTSA ni confirma compatibilidad automáticamente.</p>
+<div class="vin-input-line">
+<label for="vin-part">Repuesto o servicio solicitado<input id="vin-part" maxlength="100" autocomplete="off" placeholder="Ej.: pastillas de freno delanteras"></label>
+<label for="vin-condition">Tipo de repuesto preferido<select id="vin-condition"><option value="sin_preferencia">Por cotizar, sin preferencia</option><option value="genuino">Genuino / original</option><option value="oes">OES / proveedor de equipo</option><option value="alternativo">Alternativo / aftermarket</option><option value="remanufacturado">Remanufacturado</option><option value="usado">Usado (si es legal y seguro)</option></select></label>
+</div>
+<label for="vin-oem">Referencia OEM o número de parte conocido (opcional)<input id="vin-oem" maxlength="70" autocomplete="off" spellcheck="false" placeholder="Debe confirmarlo el proveedor"></label>
+</details>
 <label class="vin-summary-actions" for="vin-legacy"><input id="vin-legacy" type="checkbox"> <span>Mi vehículo tiene un chasis antiguo/no estandarizado. Registrar sin enviar a NHTSA.</span></label>
 <div class="vin-quick-faq"><article><h3>¿Qué significa el código?</h3><p>En el formato de 17 caracteres, las posiciones 1–3 corresponden al identificador del fabricante (WMI), 4–9 a una sección descriptiva (VDS) y 10–17 a identificación (VIS). No determina piezas compatibles por sí solo.</p></article>
 <article><h3>¿Y si mi auto es anterior a 1981?</h3><p>El número de chasis puede tener otra longitud. Marca «antiguo» o ingresa el identificador no estándar: NURVO mantendrá el dato en memoria para esta sesión sin inventar marca ni año.</p></article></div>
